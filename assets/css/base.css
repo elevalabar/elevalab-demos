@@ -1,0 +1,51 @@
+/* ElevaLab · base común de las demos (reinicio, tipografía, botones, tarjetas)
+   Depende de: elevalab-tokens.css (cargarlo antes). */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--negro); color: var(--texto);
+  font-family: var(--fuente); font-size: 1rem; line-height: 1.6;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+img, svg { max-width: 100%; height: auto; }
+h1, h2, h3 { line-height: 1.2; margin: 0 0 .5em; letter-spacing: -.01em; }
+h1 { font-size: clamp(1.7rem, 5vw, 2.6rem); }
+h2 { font-size: clamp(1.25rem, 3.4vw, 1.6rem); }
+h3 { font-size: 1.1rem; }
+p { margin: 0 0 1em; }
+a { color: var(--oro); text-underline-offset: 3px; }
+a:hover { color: var(--oro-claro); }
+:focus-visible { outline: 2px solid var(--oro); outline-offset: 3px; border-radius: 4px; }
+[hidden] { display: none !important; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.contenedor { width: 100%; max-width: var(--contenedor); margin: 0 auto; padding: 0 var(--pad); }
+.seccion { padding: 32px 0; }
+.apagado { color: var(--apagado); }
+.pequeno { font-size: .9rem; }
+
+.cabecera { border-bottom: 1px solid var(--linea); background: var(--carbon); }
+.cabecera .contenedor { display: flex; align-items: center; gap: 12px; min-height: 64px; }
+.cabecera img { width: 36px; height: 36px; }
+.cabecera .marca { font-weight: 700; color: var(--texto); text-decoration: none; letter-spacing: .01em; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: var(--toque); padding: 0 22px; border-radius: 999px; cursor: pointer;
+  font: inherit; font-weight: 600; text-decoration: none;
+  border: 1px solid var(--linea); background: var(--carbon-2); color: var(--texto);
+}
+.btn:hover { border-color: var(--oro); color: var(--texto); }
+.btn-oro { background: var(--oro); border-color: var(--oro); color: #16161a; }
+.btn-oro:hover { background: var(--oro-claro); border-color: var(--oro-claro); color: #16161a; }
+.btn[aria-disabled="true"] { opacity: .5; cursor: not-allowed; }
+
+.tarjeta { background: var(--carbon); border: 1px solid var(--linea); border-radius: var(--radio); padding: 22px; }
+.rejilla { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+.etiqueta {
+  display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: .78rem; font-weight: 700;
+  letter-spacing: .04em; text-transform: uppercase; border: 1px solid var(--oro); color: var(--oro);
+}
+.aviso-pie { border-top: 1px solid var(--linea); color: var(--apagado); font-size: .9rem; padding: 24px 0 32px; }
+
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
