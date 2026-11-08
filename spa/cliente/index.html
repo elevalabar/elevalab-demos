@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Spa Demo · reservá tu turno (demostración)</title>
+  <meta name="theme-color" content="#234638">
+  <link rel="icon" type="image/svg+xml" href="../img/spa-demo-marca.svg">
+  <link rel="stylesheet" href="../../assets/css/elevalab-tokens.css">
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="../../assets/css/demo-shell.css">
+  <link rel="stylesheet" href="../css/marca-spa.css">
+  <link rel="stylesheet" href="../css/cliente.css">
+</head>
+<body class="vista-cliente">
+  <div id="demo-shell"></div>
+
+  <div class="spa-pagina">
+    <header class="spa-cabecera">
+      <div class="contenedor">
+        <a href="#inicio" aria-label="Spa Demo, ir al inicio"><img src="../img/spa-demo-logo.svg" alt="Spa Demo (marca ficticia)"></a>
+        <nav aria-label="Secciones">
+          <a href="#servicios">Servicios</a>
+          <a href="#reserva">Reservar</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="inicio">
+      <section class="spa-hero">
+        <div class="contenedor">
+          <h1>Cuidado de manos y pies, sin esperas</h1>
+          <p>Reservá tu turno online en pocos minutos. Elegís día, horario y servicio, y una seña confirma tu lugar.</p>
+          <a class="btn-spa" href="#reserva">Reservar turno</a>
+        </div>
+      </section>
+
+      <section id="servicios" class="contenedor seccion" aria-labelledby="t-servicios">
+        <h2 id="t-servicios">Nuestros servicios</h2>
+        <p class="apagado">Se puede combinar un servicio de Manos con uno de Pies en el mismo turno.</p>
+        <div id="servicios-lista" class="srv-rejilla"></div>
+      </section>
+
+      <section id="reserva" class="contenedor seccion" aria-labelledby="t-reserva">
+        <h2 id="t-reserva">Reservá tu turno</h2>
+        <div id="asistente"></div>
+        <noscript><p>Para usar la demostración hace falta JavaScript.</p></noscript>
+      </section>
+    </main>
+
+    <footer class="contenedor spa-pie">
+      Spa Demo es una marca ficticia y esta es una demostración de ElevaLab con datos ficticios.
+      No ingreses datos reales. «noindex» no hace privada esta página.
+    </footer>
+  </div>
+
+  <script src="../js/core/config-demo.js"></script>
+  <script src="../js/core/tiempo.js"></script>
+  <script src="../js/core/estados.js"></script>
+  <script src="../js/core/disponibilidad.js"></script>
+  <script src="../js/core/reservas.js"></script>
+  <script src="../js/core/semillas.js"></script>
+  <script src="../js/core/almacen.js"></script>
+  <script src="../../assets/js/demo-shell.js"></script>
+  <script src="../js/cliente/asistente.js"></script>
+  <script>
+    (function () {
+      var ED = window.ElevaDemo;
+      var almacen = ED.almacen.crear({ storage: ED.almacen.obtenerStorage(), ventana: window });
+      ED.shell.montar({ destino: 'demo-shell', vista: 'cliente', rutas: { cliente: 'index.html', admin: null }, almacen: almacen });
+      ED.asistente.pintarServiciosInicio(almacen, 'servicios-lista');
+      ED.asistente.montar({ almacen: almacen, destino: 'asistente' });
+    })();
+  </script>
+</body>
+</html>
