@@ -1,9 +1,9 @@
 /* Spa Demo · asistente de reserva (vista de la clienta)
-   Entrega B3.2: paso 1 (fecha y horario), paso 2 (servicios), paso 3 (datos de la clienta) y paso 4 (revisar la seña).
-   El pago simulado y la confirmación llegan en la próxima entrega (B3.3): por ahora el botón de pagar está apagado
-   y NO se guarda ninguna reserva (guardarla retendría un horario sin que haya pantalla para resolverla).
-   Solo dibuja y guía: todas las reglas (horarios libres, un servicio por grupo, validación de datos) salen de spa/js/core/.
-   Lo que la clienta elige vive en memoria de la página.
+   Pasos: 1 fecha y horario, 2 servicios, 3 datos de la clienta, 4 revisar la seña.
+   En el paso 4, «Reservar y pagar seña» CREA la reserva (queda «reservada»: el horario se retiene mientras corre el contador)
+   y lleva a la pasarela simulada (cliente/pago/). Si el horario ya no está, avisa y vuelve al paso que corresponda.
+   Solo dibuja y guía: todas las reglas salen de spa/js/core/. Lo que la clienta elige vive en memoria de la página
+   hasta que reserva; recién ahí se guarda un turno.
    Depende de: spa/js/core/ (config-demo, tiempo, estados, disponibilidad, reservas, semillas, almacen). */
 (function (root) {
   'use strict';
@@ -56,7 +56,7 @@
 
     var ui = {
       paso: 1, anio: null, mes: null, dia: null, inicio: null, servicios: [], aviso: '', enfocarPanel: false,
-      datos: { nombre: '', email: '', telefono: '' }, errores: {}, enfocarCampo: null
+      datos: { nombre: '', email: '', telefono: '' }, errores: {}, enfocarCampo: null, reservando: false
     };
     var ultimaFirma = '';
 
@@ -320,6 +320,28 @@
       return p;
     }
 
+    // Crea la reserva y pasa a la pasarela simulada. Si algo no corresponde, no se guarda nada y se vuelve al paso afectado.
+    function reservar() {
+      if (ui.reservando) return;
+      var ahora = T.ahora(), id;
+      try {
+        id = almacen.actualizar(function (e) {
+          R.vencerPendientes(e, ahora);
+          return R.iniciarReserva(e, { inicio: ui.inicio, serviciosIds: ui.servicios, clienta: ui.datos }, ahora).id;
+        });
+      } catch (err) {
+        ui.enfocarPanel = true;
+        if (err && err.codigo === 'HORARIO_NO_DISPONIBLE') { ui.inicio = null; ui.paso = 1; ui.aviso = 'Ese horario ya no está disponible. Elegí otro.'; }
+        else if (err && err.codigo === 'SERVICIOS_INVALIDOS') { ui.paso = 2; ui.aviso = ''; }
+        else if (err && err.codigo === 'DATOS_INVALIDOS') { ui.paso = 3; ui.errores = err.detalle || {}; }
+        else { ui.paso = 1; ui.aviso = 'No pudimos crear la reserva. Probá de nuevo.'; }
+        dibujar();
+        return;
+      }
+      ui.reservando = true;
+      root.location.href = 'pago/index.html?turno=' + encodeURIComponent(id);
+    }
+
     function textoRetencion(estado) {
       return estado.config.modoRapido ? '60 segundos' : plural(estado.config.sena.retencionMin, 'minuto', 'minutos');
     }
@@ -377,9 +399,9 @@
 
       var nav = el('div', 'panel-nav');
       nav.appendChild(boton('Atrás', 'atras', 'btn-spa-sec', function () { ui.paso = 3; ui.enfocarPanel = true; dibujar(); }));
-      nav.appendChild(boton('Reservar y pagar seña', 'pagar', 'btn-spa', function () {}, true));
+      nav.appendChild(boton('Reservar y pagar seña', 'pagar', 'btn-spa', reservar));
       p.appendChild(nav);
-      p.appendChild(el('p', 'apagado pequeno nota-pago', 'El pago simulado llega en la próxima entrega (B3.3). Por ahora no se guarda ninguna reserva.'));
+      p.appendChild(el('p', 'apagado pequeno nota-pago', 'Se abre una pasarela de pago simulada: no se cobra nada y no hay que ingresar datos de ninguna tarjeta.'));
       return p;
     }
 
