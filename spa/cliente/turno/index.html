@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Estado de tu reserva · Spa Demo (demostración)</title>
+  <meta name="theme-color" content="#234638">
+  <link rel="icon" type="image/svg+xml" href="../../img/spa-demo-marca.svg">
+  <link rel="stylesheet" href="../../../assets/css/elevalab-tokens.css">
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/demo-shell.css">
+  <link rel="stylesheet" href="../../css/marca-spa.css">
+  <link rel="stylesheet" href="../../css/cliente.css">
+  <link rel="stylesheet" href="../../css/turno.css">
+</head>
+<body class="vista-cliente">
+  <div id="demo-shell"></div>
+
+  <div class="spa-pagina">
+    <header class="spa-cabecera">
+      <div class="contenedor">
+        <a href="../index.html" aria-label="Spa Demo, ir al inicio"><img src="../../img/spa-demo-logo.svg" alt="Spa Demo (marca ficticia)"></a>
+        <nav aria-label="Secciones">
+          <a href="../index.html#servicios">Servicios</a>
+          <a href="../index.html#reserva">Reservar</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="turno-pagina">
+      <div class="contenedor">
+        <div id="estado-turno"></div>
+        <noscript><p>Para usar la demostración hace falta JavaScript.</p></noscript>
+      </div>
+    </main>
+
+    <footer class="contenedor spa-pie">
+      Spa Demo es una marca ficticia y esta es una demostración de ElevaLab con datos ficticios.
+      No ingreses datos reales. «noindex» no hace privada esta página.
+    </footer>
+  </div>
+
+  <script src="../../js/core/config-demo.js"></script>
+  <script src="../../js/core/tiempo.js"></script>
+  <script src="../../js/core/estados.js"></script>
+  <script src="../../js/core/disponibilidad.js"></script>
+  <script src="../../js/core/reservas.js"></script>
+  <script src="../../js/core/ics.js"></script>
+  <script src="../../js/core/semillas.js"></script>
+  <script src="../../js/core/almacen.js"></script>
+  <script src="../../../assets/js/demo-shell.js"></script>
+  <script src="../../js/cliente/retorno.js"></script>
+  <script>
+    (function () {
+      var ED = window.ElevaDemo;
+      var almacen = ED.almacen.crear({ storage: ED.almacen.obtenerStorage(), ventana: window });
+      ED.shell.montar({ destino: 'demo-shell', vista: 'cliente', rutas: { cliente: '../index.html', admin: null }, almacen: almacen });
+      ED.retorno.montar({ almacen: almacen, destino: 'estado-turno', pago: '../pago/index.html', inicio: '../index.html#reserva' });
+    })();
+  </script>
+</body>
+</html>
