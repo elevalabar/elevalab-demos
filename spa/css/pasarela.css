@@ -1,0 +1,27 @@
+/* Spa Demo · pasarela de pago simulada
+   Aspecto deliberadamente neutro y genérico: no imita ninguna pasarela real ni usa marcas de terceros.
+   Depende de: assets/css/elevalab-tokens.css, base.css y demo-shell.css (cargarlos antes). */
+body.vista-pasarela { background: #eceef1; }
+.pasarela-pagina { color: #1f2933; font-family: var(--fuente); padding: 24px 0 48px; }
+.pasarela-pagina :focus-visible { outline: 3px solid #1f2933; outline-offset: 3px; }
+.pasarela-tarjeta { max-width: 520px; margin: 0 auto; background: #fff; border: 1px solid #cfd4da; border-radius: 12px; padding: 24px; }
+.pasarela-tarjeta h2 { color: #1f2933; font-size: 1.35rem; margin: 0 0 .8em; }
+.pasarela-tarjeta h2:focus { outline: none; }
+.pasarela-banner { margin: 0 0 16px; padding: 12px 14px; border-radius: 8px; background: #fff4cc; border: 2px dashed #8a6d00; color: #4a3a00; font-size: .95rem; }
+.pasarela-banner strong { letter-spacing: .08em; }
+.pasarela-datos { margin: 0 0 16px; }
+.pasarela-datos dt { font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; color: #52606d; margin-top: 10px; }
+.pasarela-datos dd { margin: 2px 0 0; font-weight: 600; overflow-wrap: anywhere; }
+.pasarela-importe strong { font-size: 1.6rem; }
+.pasarela-importe span { font-weight: 400; color: #52606d; font-size: .92rem; }
+.pasarela-cuenta { padding: 12px 14px; border-radius: 8px; background: #f1f3f5; margin: 0 0 16px; }
+.pasarela-reloj { font-size: 1.25rem; font-variant-numeric: tabular-nums; }
+.pasarela-ayuda { color: #52606d; margin: 0 0 10px; }
+.pasarela-botones { display: grid; gap: 10px; margin-bottom: 12px; }
+.pg-btn { display: inline-flex; align-items: center; justify-content: center; min-height: var(--toque); padding: 0 20px; border-radius: 8px; font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; border: 2px solid #1f2933; }
+.pg-btn-ok { background: #1f2933; color: #fff; }
+.pg-btn-ok:hover { background: #000; }
+.pg-btn-sec { background: #fff; color: #1f2933; }
+.pg-btn-sec:hover { background: #f1f3f5; }
+.pasarela-enlace { display: inline-flex; align-items: center; min-height: 44px; color: #1f2933; }
+.pequeno { font-size: .9rem; }
