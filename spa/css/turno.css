@@ -1,0 +1,19 @@
+/* Spa Demo · estado de la reserva (confirmación, pendiente, vencida, cancelada)
+   Depende de: assets/css/*, css/marca-spa.css y css/cliente.css (cargarlos antes). */
+.turno-pagina { padding: 32px 0 56px; }
+.turno-caja { max-width: 640px; margin: 0 auto; background: var(--spa-superficie); border: 1px solid var(--spa-linea); border-radius: var(--radio); padding: 28px 24px; text-align: center; }
+.turno-icono { width: 64px; height: 64px; margin: 0 auto 12px; display: grid; place-items: center; border-radius: 50%; font-size: 1.8rem; font-weight: 700; background: var(--spa-fondo); color: var(--spa-primario-oscuro); }
+.turno-ok .turno-icono { background: var(--spa-primario); color: #fff; }
+.turno-pendiente .turno-icono { background: #fdf3d8; color: #6b4a00; }
+.turno-caja h2 { margin-bottom: .3em; }
+.turno-caja h2:focus { outline: none; }
+.turno-texto { color: var(--spa-apagado); max-width: 52ch; margin: 0 auto 16px; }
+.turno-cuenta { margin: 0 0 16px; font-size: 1.1rem; }
+.turno-cuenta strong { font-variant-numeric: tabular-nums; }
+.turno-detalle { text-align: left; margin: 20px auto; max-width: 480px; background: var(--spa-fondo); border-radius: 12px; padding: 8px 18px 14px; }
+.turno-detalle dt { font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; color: var(--spa-apagado); margin-top: 12px; }
+.turno-detalle dd { margin: 2px 0 0; font-weight: 600; overflow-wrap: anywhere; }
+.turno-acciones { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin: 20px 0 8px; }
+.turno-girando { display: inline-block; width: 36px; height: 36px; border-radius: 50%; border: 4px solid var(--spa-linea); border-top-color: var(--spa-primario); animation: turno-giro 1s linear infinite; margin-top: 8px; }
+@keyframes turno-giro { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .turno-girando { animation: none; border-top-color: var(--spa-linea); border-right-color: var(--spa-primario); } }
