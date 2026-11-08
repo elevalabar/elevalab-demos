@@ -1,7 +1,9 @@
 /* Spa Demo · asistente de reserva (vista de la clienta)
-   Entrega B3.1: paso 1 (fecha y horario) y paso 2 (servicios). Los pasos 3 y 4 (datos y seña) llegan en la próxima entrega.
-   Solo dibuja y guía: todas las reglas (horarios libres, un servicio por grupo) salen de spa/js/core/.
-   Los datos que la clienta elige viven en memoria de la página; todavía no se reserva nada ni se guarda nada.
+   Entrega B3.2: paso 1 (fecha y horario), paso 2 (servicios), paso 3 (datos de la clienta) y paso 4 (revisar la seña).
+   El pago simulado y la confirmación llegan en la próxima entrega (B3.3): por ahora el botón de pagar está apagado
+   y NO se guarda ninguna reserva (guardarla retendría un horario sin que haya pantalla para resolverla).
+   Solo dibuja y guía: todas las reglas (horarios libres, un servicio por grupo, validación de datos) salen de spa/js/core/.
+   Lo que la clienta elige vive en memoria de la página.
    Depende de: spa/js/core/ (config-demo, tiempo, estados, disponibilidad, reservas, semillas, almacen). */
 (function (root) {
   'use strict';
@@ -21,6 +23,9 @@
   function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
   function plural(n, uno, varios) { return n + ' ' + (n === 1 ? uno : varios); }
   function indiceMes(anio, mes) { return anio * 12 + (mes - 1); }
+  function pesos(n) { return '$' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+  // Datos FICTICIOS para el botón «Completar con datos de ejemplo».
+  var DATOS_EJEMPLO = { nombre: 'Ana Demo', email: 'ana.demo@example.com', telefono: '11 5555-0199' };
 
   /* ---------- tarjetas de servicios de la portada ---------- */
   function pintarServiciosInicio(almacen, destino) {
@@ -49,7 +54,10 @@
     var cont = typeof opc.destino === 'string' ? doc.getElementById(opc.destino) : opc.destino;
     if (!cont) return null;
 
-    var ui = { paso: 1, anio: null, mes: null, dia: null, inicio: null, servicios: [], aviso: '', enfocarPanel: false };
+    var ui = {
+      paso: 1, anio: null, mes: null, dia: null, inicio: null, servicios: [], aviso: '', enfocarPanel: false,
+      datos: { nombre: '', email: '', telefono: '' }, errores: {}, enfocarCampo: null
+    };
     var ultimaFirma = '';
 
     function limites(estado, ahora) {
@@ -249,14 +257,129 @@
       return p;
     }
 
-    function pasoPendiente() {
+    function campo(id, rotulo, tipo, autocompletar, marcador) {
+      var caja = el('div', 'campo');
+      var l = el('label', null, rotulo);
+      l.setAttribute('for', 'f-' + id);
+      caja.appendChild(l);
+      var i = el('input');
+      i.id = 'f-' + id; i.name = id; i.type = tipo; i.value = ui.datos[id];
+      i.placeholder = marcador;
+      i.setAttribute('data-id', 'f-' + id);
+      i.setAttribute('autocomplete', autocompletar);
+      if (tipo === 'tel') i.setAttribute('inputmode', 'tel');
+      if (tipo === 'email') i.setAttribute('inputmode', 'email');
+      // Se guarda mientras escribe, sin redibujar (así no se pierde el foco).
+      i.addEventListener('input', function () { ui.datos[id] = i.value; });
+      caja.appendChild(i);
+      var e = el('p', 'campo-error', ui.errores[id] || '');
+      e.id = 'e-' + id;
+      if (ui.errores[id]) { i.setAttribute('aria-invalid', 'true'); i.setAttribute('aria-describedby', 'e-' + id); } else e.hidden = true;
+      caja.appendChild(e);
+      return caja;
+    }
+
+    function pasoDatos() {
       var p = el('div', 'panel');
       p.appendChild(titulo('Tus datos'));
-      p.appendChild(el('p', null, 'Hasta acá llega esta entrega de la demo (B3.1). En la próxima se agregan los datos de la clienta, la revisión de la seña, el pago simulado y la confirmación.'));
-      p.appendChild(el('p', 'apagado', 'Todavía no se reservó nada: tu elección se ve en el resumen y no se guarda.'));
+      p.appendChild(el('p', 'apagado', 'Los necesitamos para confirmar tu turno. En esta demostración no ingreses datos reales: usá datos inventados.'));
+      var ej = boton('Completar con datos de ejemplo', 'ejemplo', 'btn-spa-sec', function () {
+        ui.datos = { nombre: DATOS_EJEMPLO.nombre, email: DATOS_EJEMPLO.email, telefono: DATOS_EJEMPLO.telefono };
+        ui.errores = {};
+        dibujar();
+      });
+      ej.className += ' btn-chico';
+      p.appendChild(ej);
+
+      var f = el('form', 'datos-form');
+      f.noValidate = true;
+      f.appendChild(campo('nombre', 'Nombre y apellido', 'text', 'name', 'Ej.: Ana Demo'));
+      f.appendChild(campo('email', 'Mail', 'email', 'email', 'Ej.: ana.demo@example.com'));
+      f.appendChild(campo('telefono', 'Teléfono', 'tel', 'tel', 'Ej.: 11 5555-0199'));
+      f.addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        var v = R.validarDatosClienta(ui.datos);
+        if (!v.ok) {
+          ui.errores = v.errores;
+          ui.enfocarCampo = ['nombre', 'email', 'telefono'].filter(function (k) { return v.errores[k]; })[0];
+          dibujar();
+          return;
+        }
+        ui.errores = {};
+        ui.datos = v.datos;
+        ui.paso = 4; ui.enfocarPanel = true;
+        dibujar();
+      });
       var nav = el('div', 'panel-nav');
       nav.appendChild(boton('Atrás', 'atras', 'btn-spa-sec', function () { ui.paso = 2; ui.enfocarPanel = true; dibujar(); }));
+      var sig = el('button', 'btn-spa', 'Continuar');
+      sig.type = 'submit'; sig.setAttribute('data-id', 'sig');
+      nav.appendChild(sig);
+      f.appendChild(nav);
+      p.appendChild(f);
+      return p;
+    }
+
+    function textoRetencion(estado) {
+      return estado.config.modoRapido ? '60 segundos' : plural(estado.config.sena.retencionMin, 'minuto', 'minutos');
+    }
+
+    function pasoRevision(estado) {
+      var p = el('div', 'panel');
+      p.appendChild(titulo('Revisá tu reserva'));
+      p.appendChild(el('p', 'apagado', 'Controlá que esté todo bien antes de pagar la seña.'));
+
+      var dl = el('dl', 'revision');
+      function fila(rotulo, valor, idEditar, textoEditar) {
+        var dt = el('dt', null, rotulo);
+        var dd = el('dd');
+        if (typeof valor === 'string') dd.appendChild(el('span', null, valor));
+        else dd.appendChild(valor);
+        dl.appendChild(dt); dl.appendChild(dd);
+        if (idEditar) {
+          var paso = Number(idEditar.slice(-1));
+          var ed = boton(textoEditar, idEditar, 'enlace', function () { ui.paso = paso; ui.enfocarPanel = true; dibujar(); });
+          ed.setAttribute('aria-label', textoEditar + ' ' + rotulo.toLowerCase());   // para que los lectores de pantalla distingan los tres «Cambiar»
+          dd.appendChild(ed);
+        }
+      }
+      fila('Día y horario', cap(T.etiquetaDia(ui.dia)) + ', ' + T.formatoHora(ui.inicio) + ' a ' + T.formatoHora(ui.inicio + estado.config.agenda.duracionMin * 60000) + ' hs', 'editar-1', 'Cambiar');
+      var ul = el('ul');
+      ui.servicios.forEach(function (id) { ul.appendChild(el('li', null, R.buscarServicio(estado, id).nombre)); });
+      fila('Servicios', ul, 'editar-2', 'Cambiar');
+      fila('Tus datos', ui.datos.nombre + ' · ' + ui.datos.email + ' · ' + ui.datos.telefono, 'editar-3', 'Cambiar');
+      p.appendChild(dl);
+
+      var sena = el('section', 'sena');
+      sena.setAttribute('aria-labelledby', 'sena-titulo');
+      var h = el('h4', null, 'Seña para confirmar tu turno');
+      h.id = 'sena-titulo';
+      sena.appendChild(h);
+      var monto = el('p', 'sena-monto');
+      monto.appendChild(el('strong', null, pesos(estado.config.sena.monto)));
+      monto.appendChild(el('span', 'apagado', ' · monto de ejemplo'));
+      sena.appendChild(monto);
+      sena.appendChild(el('p', null, 'Al tocar «Reservar y pagar seña», tu horario queda guardado durante ' + textoRetencion(estado) +
+        ' mientras completás el pago. Si el pago no se aprueba a tiempo, la reserva vence y el horario se libera. El turno se confirma cuando el pago se aprueba.'));
+      p.appendChild(sena);
+
+      var pol = el('section', 'politica');
+      pol.setAttribute('aria-labelledby', 'politica-titulo');
+      var hp = el('h4', null, 'Política de cambios y cancelación');
+      hp.id = 'politica-titulo';
+      pol.appendChild(hp);
+      var lp = el('ul');
+      lp.appendChild(el('li', null, 'Podés cambiar el horario hasta ' + plural(estado.config.sena.horasCambioSinPerder, 'hora', 'horas') + ' antes del turno sin perder la seña: la seña pasa al nuevo horario.'));
+      lp.appendChild(el('li', null, 'Si cancelás o no te presentás, la seña no se devuelve.'));
+      pol.appendChild(lp);
+      pol.appendChild(el('p', 'apagado pequeno', 'En esta demostración, cambiar o cancelar desde «Mi turno» se agrega más adelante.'));
+      p.appendChild(pol);
+
+      var nav = el('div', 'panel-nav');
+      nav.appendChild(boton('Atrás', 'atras', 'btn-spa-sec', function () { ui.paso = 3; ui.enfocarPanel = true; dibujar(); }));
+      nav.appendChild(boton('Reservar y pagar seña', 'pagar', 'btn-spa', function () {}, true));
       p.appendChild(nav);
+      p.appendChild(el('p', 'apagado pequeno nota-pago', 'El pago simulado llega en la próxima entrega (B3.3). Por ahora no se guarda ninguna reserva.'));
       return p;
     }
 
@@ -292,11 +415,12 @@
       cont.textContent = '';
       cont.appendChild(barraPasos());
       var rejilla = el('div', 'reserva-rejilla');
-      rejilla.appendChild(ui.paso === 1 ? pasoFecha(estado, ahora) : (ui.paso === 2 ? pasoServicios(estado) : pasoPendiente()));
+      rejilla.appendChild(ui.paso === 1 ? pasoFecha(estado, ahora) : (ui.paso === 2 ? pasoServicios(estado) : (ui.paso === 3 ? pasoDatos() : pasoRevision(estado))));
       rejilla.appendChild(resumen(estado));
       cont.appendChild(rejilla);
       var destinoFoco = null;
-      if (ui.enfocarPanel) { destinoFoco = cont.querySelector('#titulo-paso'); ui.enfocarPanel = false; }
+      if (ui.enfocarCampo) { destinoFoco = cont.querySelector('[data-id="f-' + ui.enfocarCampo + '"]'); ui.enfocarCampo = null; ui.enfocarPanel = false; }
+      else if (ui.enfocarPanel) { destinoFoco = cont.querySelector('#titulo-paso'); ui.enfocarPanel = false; }
       else if (activo) destinoFoco = cont.querySelector('[data-id="' + activo + '"]');
       if (destinoFoco && !destinoFoco.disabled) destinoFoco.focus();
       ultimaFirma = firma(estado, ahora);
