@@ -1,0 +1,31 @@
+/* ElevaLab · identidad visual (variables)
+   Copia propia de las variables de elevalab.com.ar (assets/css/style.css, rediseño V2).
+   Se duplican a propósito: así un cambio en la web institucional no rompe las demos.
+   Si la identidad de ElevaLab cambia, actualizar acá a mano.
+   Tipografía: la del sistema (sin Google Fonts ni archivos externos). */
+:root {
+  --negro: #0b0b0d;
+  --carbon: #141417;
+  --carbon-2: #1c1c21;
+  --linea: #2b2b32;
+  --blanco: #ffffff;
+  --texto: #efede8;
+  --apagado: #a6a7b0;
+  --oro: #f2c14e;
+  --oro-claro: #ffd980;
+  --oro-texto: #8a6200;
+  --claro: #f3f2ee;
+  --claro-texto: #16161a;
+  --claro-apagado: #55565e;
+  --claro-linea: #e2e0d8;
+  --ok: #7ad19b;
+  --error: #ff8f8f;
+
+  --fuente: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --fuente-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --contenedor: 1180px;
+  --pad: 20px;
+  --radio: 14px;
+  --toque: 48px;
+  color-scheme: dark;
+}
