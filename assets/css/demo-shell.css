@@ -1,0 +1,44 @@
+/* ElevaLab · marco general de las demos (barra de aviso, selector de vista, reinicio)
+   Depende de: elevalab-tokens.css y base.css. Lo usa assets/js/demo-shell.js. */
+.demo-barra {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--carbon); border-bottom: 1px solid var(--oro);
+  padding: calc(env(safe-area-inset-top, 0px) + 8px) var(--pad) 8px;
+  font-size: .9rem;
+}
+.demo-barra-interno { max-width: var(--contenedor); margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+.demo-aviso { margin: 0; flex: 1 1 260px; line-height: 1.4; }
+.demo-aviso strong { color: var(--oro); }
+.demo-controles { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+
+.demo-vistas { display: inline-flex; border: 1px solid var(--linea); border-radius: 999px; overflow: hidden; }
+.demo-vista {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px;
+  color: var(--texto); text-decoration: none; background: transparent; font-weight: 600;
+}
+.demo-vista + .demo-vista { border-left: 1px solid var(--linea); }
+.demo-vista[aria-current="page"] { background: var(--oro); color: #16161a; }
+.demo-vista[aria-disabled="true"] { color: var(--apagado); cursor: not-allowed; }
+
+.demo-rapido { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; cursor: pointer; }
+.demo-rapido input { width: 22px; height: 22px; accent-color: var(--oro); }
+.demo-reiniciar {
+  min-height: 44px; padding: 0 16px; border-radius: 999px; cursor: pointer; font: inherit; font-weight: 600;
+  background: transparent; color: var(--texto); border: 1px solid var(--linea);
+}
+.demo-reiniciar:hover { border-color: var(--oro); }
+.demo-reiniciar[data-confirmar="si"] { background: var(--error); color: #16161a; border-color: var(--error); }
+
+.demo-info { flex: 1 1 100%; }
+.demo-info summary { cursor: pointer; min-height: 32px; display: inline-flex; align-items: center; color: var(--apagado); }
+.demo-info p { margin: 6px 0 0; color: var(--apagado); max-width: 70ch; }
+.demo-alerta { flex: 1 1 100%; margin: 0; padding: 8px 12px; border-radius: 8px; background: #3a2c0a; color: var(--oro-claro); }
+.demo-mensaje { flex: 1 1 100%; margin: 0; color: var(--ok); min-height: 1.2em; }
+
+@media (max-width: 560px) {
+  /* En celular la barra es alta: no queda fija para no tapar el contenido. En pantallas más anchas sí queda fija. */
+  .demo-barra { position: static; }
+  .demo-controles { width: 100%; }
+  .demo-vistas { width: 100%; }
+  .demo-vista { flex: 1 1 50%; justify-content: center; }
+}
