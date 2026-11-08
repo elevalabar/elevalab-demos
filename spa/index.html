@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Spa Demo · estado de la demostración · ElevaLab</title>
+  <meta name="theme-color" content="#0b0b0d">
+  <link rel="icon" type="image/svg+xml" href="img/spa-demo-marca.svg">
+  <link rel="stylesheet" href="../assets/css/elevalab-tokens.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/demo-shell.css">
+  <link rel="stylesheet" href="css/marca-spa.css">
+</head>
+<body>
+  <div id="demo-shell"></div>
+
+  <main class="contenedor">
+    <section class="seccion">
+      <p><a href="../index.html">← Todas las demostraciones</a></p>
+      <h1>Spa Demo</h1>
+      <p class="apagado" style="max-width:62ch">
+        Demostración de reservas con seña y panel de administración para un spa. Esta página muestra el estado de la
+        <strong>base técnica</strong> (etapas B1 y B2). Las vistas de clienta y de administradora llegan en las próximas etapas.
+      </p>
+    </section>
+
+    <section class="seccion" aria-labelledby="t-estado">
+      <h2 id="t-estado">Estado de la base</h2>
+      <div class="rejilla">
+        <div class="tarjeta">
+          <h3>Almacenamiento</h3>
+          <p id="est-modo">…</p>
+          <p class="apagado pequeno">En este navegador. No se comparte con otros visitantes ni dispositivos.</p>
+        </div>
+        <div class="tarjeta">
+          <h3>Datos de ejemplo</h3>
+          <p id="est-datos">…</p>
+          <p class="apagado pequeno">Ficticios y relativos a hoy (hora de Buenos Aires).</p>
+        </div>
+        <div class="tarjeta">
+          <h3>Próximos horarios libres</h3>
+          <p id="est-libres">…</p>
+          <p class="apagado pequeno">Calculados con las reglas de agenda de la demo.</p>
+        </div>
+      </div>
+      <p style="margin-top:20px"><a class="btn btn-oro" href="pruebas/index.html">Abrir las pruebas automáticas</a></p>
+    </section>
+
+    <section class="seccion" aria-labelledby="t-marca">
+      <h2 id="t-marca">Marca ficticia (provisional)</h2>
+      <div class="spa-lienzo">
+        <img class="spa-logo" src="img/spa-demo-logo.svg" alt="Logo de Spa Demo, marca ficticia">
+        <h3>Spa Demo</h3>
+        <p>Nombre y marca inventados para esta demostración. No representan a ningún negocio real.</p>
+        <ul class="spa-paleta">
+          <li class="spa-muestra"><i style="background:#2f5d50"></i><span>Primario<br>#2f5d50</span></li>
+          <li class="spa-muestra"><i style="background:#8fc3b3"></i><span>Acento<br>#8fc3b3</span></li>
+          <li class="spa-muestra"><i style="background:#eef3f0"></i><span>Fondo<br>#eef3f0</span></li>
+          <li class="spa-muestra"><i style="background:#1d2a26"></i><span>Texto<br>#1d2a26</span></li>
+        </ul>
+        <span class="spa-boton" aria-hidden="true">Reservar turno</span>
+      </div>
+    </section>
+  </main>
+
+  <footer class="contenedor aviso-pie">
+    Datos ficticios. No ingreses datos reales. «noindex» no hace privada esta demo.
+  </footer>
+
+  <script src="js/core/config-demo.js"></script>
+  <script src="js/core/tiempo.js"></script>
+  <script src="js/core/estados.js"></script>
+  <script src="js/core/disponibilidad.js"></script>
+  <script src="js/core/reservas.js"></script>
+  <script src="js/core/semillas.js"></script>
+  <script src="js/core/almacen.js"></script>
+  <script src="../assets/js/demo-shell.js"></script>
+  <script>
+    (function () {
+      var ED = window.ElevaDemo, T = ED.tiempo, D = ED.disponibilidad;
+      var almacen = ED.almacen.crear({ storage: ED.almacen.obtenerStorage(), ventana: window });
+
+      ED.shell.montar({ destino: 'demo-shell', vista: 'inicio', rutas: { cliente: null, admin: null }, almacen: almacen });
+
+      function pintar(estado) {
+        var ahora = T.ahora();
+        document.getElementById('est-modo').textContent = almacen.modo() === 'localStorage'
+          ? 'Guardando en localStorage (clave propia de la demo).'
+          : 'En memoria: este navegador no permite guardar, los datos viven solo en esta pestaña.';
+        var web = estado.turnos.filter(function (t) { return t.origen === 'web'; }).length;
+        document.getElementById('est-datos').textContent =
+          estado.turnos.length + ' turnos de ejemplo (' + web + ' con seña, ' + (estado.turnos.length - web) + ' cargados desde el panel), ' +
+          estado.servicios.length + ' servicios en ' + estado.grupos.length + ' grupos.';
+        var libres = [], clave = T.claveDia(ahora);
+        for (var i = 0; i < 14 && libres.length < 3; i++, clave = T.sumarDias(clave, 1)) {
+          D.horariosLibres(estado, clave, ahora).forEach(function (h) {
+            if (libres.length < 3) libres.push(T.etiquetaDia(clave) + ', ' + h.etiqueta + ' hs');
+          });
+        }
+        document.getElementById('est-libres').textContent = libres.length ? libres.join(' · ') : 'No hay horarios libres en los próximos 14 días.';
+      }
+      almacen.suscribir(pintar);
+      pintar(almacen.leer());
+    })();
+  </script>
+</body>
+</html>
