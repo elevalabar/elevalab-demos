@@ -1,0 +1,5 @@
+# Las páginas de esta demo llevan <meta name="robots" content="noindex, nofollow">.
+# No se bloquea el rastreo (Disallow) a propósito: si se bloqueara, los buscadores no podrían leer
+# esa etiqueta y podrían listar la dirección igual. Recordatorio: «noindex» no hace privado el sitio.
+User-agent: *
+Allow: /
