@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Pruebas automáticas · Spa Demo · ElevaLab</title>
+  <link rel="icon" type="image/svg+xml" href="../img/spa-demo-marca.svg">
+  <link rel="stylesheet" href="../../assets/css/elevalab-tokens.css">
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <style>
+    .resumen { padding: 16px 20px; border-radius: var(--radio); font-weight: 700; border: 1px solid var(--linea); }
+    .resumen.ok { background: #10261a; color: var(--ok); border-color: var(--ok); }
+    .resumen.mal { background: #2a1111; color: var(--error); border-color: var(--error); }
+    ul.pruebas { list-style: none; margin: 0 0 24px; padding: 0; }
+    ul.pruebas li { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--linea); }
+    ul.pruebas .marca { flex: 0 0 1.4em; font-weight: 700; }
+    ul.pruebas li.ok .marca { color: var(--ok); }
+    ul.pruebas li.mal { color: var(--error); }
+    ul.pruebas li.mal .marca { color: var(--error); }
+  </style>
+</head>
+<body>
+  <main class="contenedor">
+    <section class="seccion">
+      <p><a href="../index.html">← Spa Demo</a></p>
+      <h1>Pruebas automáticas</h1>
+      <p class="apagado" style="max-width:62ch">
+        Verifican las reglas de negocio (agenda, estados, reserva, pago, cancelaciones y almacenamiento).
+        Usan un reloj fijo y un almacenamiento falso: no dependen de la fecha de hoy ni tocan los datos guardados de la demo.
+      </p>
+      <p id="resumen" class="resumen" role="status">Ejecutando pruebas…</p>
+      <div id="lista"></div>
+      <noscript><p>Para ejecutar las pruebas hace falta JavaScript.</p></noscript>
+    </section>
+  </main>
+
+  <script src="../js/core/config-demo.js"></script>
+  <script src="../js/core/tiempo.js"></script>
+  <script src="../js/core/estados.js"></script>
+  <script src="../js/core/disponibilidad.js"></script>
+  <script src="../js/core/reservas.js"></script>
+  <script src="../js/core/semillas.js"></script>
+  <script src="../js/core/almacen.js"></script>
+  <script src="pruebas.js"></script>
+</body>
+</html>
