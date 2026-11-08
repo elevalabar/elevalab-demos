@@ -1,0 +1,111 @@
+/* Spa Demo · vista de la clienta
+   Estilos de la portada y del asistente de reserva, con la marca ficticia del spa.
+   Depende de: assets/css/elevalab-tokens.css, base.css, demo-shell.css y css/marca-spa.css (cargarlos antes). */
+body.vista-cliente { background: var(--spa-fondo); }
+.spa-pagina { color: var(--spa-texto); font-family: var(--spa-fuente); }
+.spa-pagina a { color: var(--spa-primario); }
+.spa-pagina a:hover { color: var(--spa-primario-oscuro); }
+.spa-pagina :focus-visible { outline: 3px solid var(--spa-primario); outline-offset: 3px; }
+.spa-pagina h2, .spa-pagina h3, .spa-pagina h4 { font-family: var(--spa-fuente-titulo); color: var(--spa-primario-oscuro); font-weight: 600; }
+.spa-pagina .apagado { color: var(--spa-apagado); }
+
+/* cabecera */
+.spa-cabecera { background: var(--spa-superficie); border-bottom: 1px solid var(--spa-linea); }
+.spa-cabecera .contenedor { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 68px; }
+.spa-cabecera img { display: block; height: 40px; width: auto; }
+.spa-cabecera nav { display: flex; gap: 6px; }
+.spa-cabecera nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; text-decoration: none; font-weight: 600; border-radius: 999px; }
+
+/* portada (sin fotos: degradado propio) */
+.spa-hero {
+  position: relative; overflow: hidden; color: #fff;
+  background: linear-gradient(135deg, #234638 0%, #3f7566 100%);
+}
+.spa-hero::before, .spa-hero::after { content: ""; position: absolute; border-radius: 50%; background: rgba(143, 195, 179, .22); pointer-events: none; }
+.spa-hero::before { width: 360px; height: 360px; right: -90px; top: -120px; }
+.spa-hero::after { width: 220px; height: 220px; right: 18%; bottom: -110px; }
+.spa-hero .contenedor { position: relative; padding-top: 56px; padding-bottom: 56px; }
+.spa-hero h1 { font-family: var(--spa-fuente-titulo); font-weight: 600; max-width: 18ch; margin-bottom: .4em; color: #fff; }
+.spa-hero p { max-width: 52ch; color: #e6f1ec; font-size: 1.1rem; }
+.spa-hero .btn-spa { background: #fff; color: var(--spa-primario-oscuro); }
+.spa-hero .btn-spa:hover { background: var(--spa-fondo); }
+.spa-hero :focus-visible { outline-color: #fff; }
+
+/* botones */
+.btn-spa, .btn-spa-sec {
+  display: inline-flex; align-items: center; justify-content: center; min-height: var(--toque); padding: 0 24px;
+  border-radius: 999px; font: inherit; font-weight: 600; text-decoration: none; cursor: pointer; border: 1px solid var(--spa-primario);
+}
+.btn-spa { background: var(--spa-primario); color: #fff; }
+.btn-spa:hover { background: var(--spa-primario-oscuro); color: #fff; }
+.btn-spa-sec { background: transparent; color: var(--spa-primario-oscuro); }
+.btn-spa-sec:hover { background: #fff; }
+.btn-spa:disabled { background: #b9c8c1; border-color: #b9c8c1; color: #fff; cursor: not-allowed; }
+.enlace { background: none; border: 0; padding: 0 4px; min-height: 44px; font: inherit; color: var(--spa-primario); text-decoration: underline; cursor: pointer; }
+
+/* servicios de la portada */
+.srv-rejilla { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
+.srv-grupo { background: var(--spa-superficie); border: 1px solid var(--spa-linea); border-radius: var(--radio); padding: 22px; }
+.srv-lista { list-style: none; margin: 0; padding: 0; }
+.srv-lista li { display: grid; gap: 2px; padding: 10px 0; border-top: 1px solid var(--spa-linea); }
+.srv-lista li:first-child { border-top: 0; }
+.srv-desc { color: var(--spa-apagado); font-size: .92rem; }
+
+/* asistente */
+.pasos { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 20px; padding: 0; }
+.paso { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px 6px 6px; border-radius: 999px; border: 1px solid var(--spa-linea); background: var(--spa-superficie); font-size: .92rem; color: var(--spa-apagado); }
+.paso-num { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--spa-linea); color: var(--spa-texto); font-weight: 700; font-size: .85rem; }
+.paso.actual { border-color: var(--spa-primario); color: var(--spa-primario-oscuro); font-weight: 700; }
+.paso.actual .paso-num { background: var(--spa-primario); color: #fff; }
+.paso.hecho .paso-num { background: var(--spa-acento); color: var(--spa-primario-oscuro); }
+@media (max-width: 560px) { .paso:not(.actual) .paso-nombre { display: none; } .paso:not(.actual) { padding-right: 6px; } }
+
+.reserva-rejilla { display: grid; gap: 20px; align-items: start; }
+@media (min-width: 900px) { .reserva-rejilla { grid-template-columns: minmax(0, 1fr) 340px; } .resumen { position: sticky; top: 16px; } }
+.panel, .resumen { background: var(--spa-superficie); border: 1px solid var(--spa-linea); border-radius: var(--radio); padding: 22px; }
+.panel-titulo { margin-bottom: .3em; }
+.panel-titulo:focus { outline: none; }
+.panel-nav { display: flex; flex-wrap: wrap; gap: 12px; justify-content: flex-end; margin-top: 24px; }
+.aviso-ui { min-height: 1.4em; margin: 0 0 8px; color: #8a2d2d; font-weight: 600; }
+.pequeno { font-size: .9rem; }
+
+/* calendario */
+.cal { max-width: 440px; margin-bottom: 20px; }
+.cal-cab { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.cal-mes { margin: 0; font-weight: 700; font-size: 1.1rem; }
+.cal-nav { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--spa-linea); background: var(--spa-superficie); color: var(--spa-primario-oscuro); font-size: 1.4rem; line-height: 1; cursor: pointer; }
+.cal-nav:hover:not(:disabled) { background: var(--spa-fondo); }
+.cal-nav:disabled { opacity: .35; cursor: not-allowed; }
+.cal-semana, .cal-grilla { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.cal-semana span { text-align: center; font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; color: var(--spa-apagado); padding: 4px 0; }
+.cal-dia { min-height: 44px; border-radius: 10px; border: 1px solid var(--spa-linea); background: var(--spa-superficie); color: var(--spa-texto); font: inherit; font-weight: 600; cursor: pointer; }
+.cal-dia:hover:not(:disabled) { border-color: var(--spa-primario); }
+.cal-dia:disabled { background: transparent; border-color: transparent; color: #8a9a93; cursor: not-allowed; font-weight: 400; }
+.cal-dia.hoy { box-shadow: inset 0 -3px 0 var(--spa-acento); }
+.cal-dia.elegido { background: var(--spa-primario); border-color: var(--spa-primario); color: #fff; }
+
+/* horarios */
+.horarios-titulo { margin: 0 0 10px; font-size: 1.05rem; }
+.horarios-grilla { display: grid; grid-template-columns: repeat(auto-fill, minmax(86px, 1fr)); gap: 8px; margin-bottom: 8px; }
+.hora { min-height: var(--toque); border-radius: 10px; border: 1px solid var(--spa-linea); background: var(--spa-superficie); color: var(--spa-texto); font: inherit; font-weight: 600; cursor: pointer; }
+.hora:hover { border-color: var(--spa-primario); }
+.hora.elegido { background: var(--spa-primario); border-color: var(--spa-primario); color: #fff; }
+
+/* servicios del asistente */
+.srv-campo { border: 1px solid var(--spa-linea); border-radius: 12px; margin: 0 0 16px; padding: 12px 16px 8px; }
+.srv-campo legend { font-family: var(--spa-fuente-titulo); font-weight: 600; font-size: 1.1rem; color: var(--spa-primario-oscuro); padding: 0 8px; }
+.srv-opcion { display: flex; align-items: flex-start; gap: 12px; min-height: var(--toque); padding: 10px 6px; cursor: pointer; border-radius: 10px; }
+.srv-opcion:hover { background: var(--spa-fondo); }
+.srv-opcion input { flex: 0 0 22px; width: 22px; height: 22px; margin-top: 2px; accent-color: var(--spa-primario); }
+.srv-txt { display: grid; gap: 2px; }
+
+/* resumen */
+.resumen h3 { margin-bottom: .6em; }
+.resumen dl { margin: 0 0 12px; display: grid; gap: 4px; }
+.resumen dt { font-size: .82rem; text-transform: uppercase; letter-spacing: .04em; color: var(--spa-apagado); margin-top: 8px; }
+.resumen dd { margin: 0; font-weight: 600; }
+.resumen dd.vacio { color: #8a9a93; font-weight: 400; }
+.resumen ul { margin: 0; padding-left: 18px; }
+
+.spa-pie { border-top: 1px solid var(--spa-linea); color: var(--spa-apagado); font-size: .9rem; padding: 24px 0 40px; }
+.contenedor.seccion { padding-top: 40px; padding-bottom: 40px; }
