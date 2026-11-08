@@ -2,11 +2,11 @@
    Se abren en el navegador: spa/pruebas/index.html (no necesitan ninguna herramienta ni conexión).
    Usan un reloj fijo (martes 10/11/2026, 09:00 hora de Buenos Aires) y un almacenamiento falso,
    así que no dependen de la fecha real ni tocan los datos guardados de la demo.
-   Depende de: todos los módulos de spa/js/core/ cargados antes. */
+   Depende de: todos los módulos de spa/js/core/ (incluido ics.js) cargados antes. */
 (function (root) {
   'use strict';
   var ED = root.ElevaDemo;
-  var T = ED.tiempo, E = ED.estados, D = ED.disponibilidad, R = ED.reservas, S = ED.semillas, A = ED.almacen, C = ED.config;
+  var T = ED.tiempo, E = ED.estados, D = ED.disponibilidad, R = ED.reservas, S = ED.semillas, A = ED.almacen, C = ED.config, I = ED.ics;
 
   /* ---------- mini ejecutor ---------- */
   var casos = [], grupoActual = '';
@@ -466,6 +466,57 @@
   probar('hay dos grupos de servicios (Manos y Pies) y ningún servicio lleva precio', function () {
     igual(C.GRUPOS.length, 2);
     C.SERVICIOS.forEach(function (s) { cierto(!('precio' in s), s.id + ' no debería tener precio'); });
+  });
+
+  /* ================= CALENDARIO (.ics) ================= */
+  grupo('Calendario (.ics)');
+  function turnoConfirmado(e) { var t = R.iniciarReserva(e, pedido(MIE_10), BASE); R.resolverPago(e, t.id, 'aprobado', BASE); return t; }
+  function lineasICS(texto) { return texto.split('\r\n'); }
+  function bytes(linea) { return new TextEncoder().encode(linea).length; }
+  probar('genera un archivo de calendario válido: estructura, final de línea y cierre', function () {
+    var e = estadoVacio(); var t = turnoConfirmado(e); var txt = I.generarICS(e, t, BASE);
+    cierto(txt.indexOf('BEGIN:VCALENDAR\r\n') === 0, 'debe empezar con BEGIN:VCALENDAR');
+    cierto(/END:VCALENDAR\r\n$/.test(txt), 'debe terminar con END:VCALENDAR y salto de línea');
+    igual(txt.replace(/\r\n/g, '').indexOf('\n'), -1, 'no puede haber saltos de línea sueltos (solo CRLF)');
+    ['VERSION:2.0', 'PRODID:', 'BEGIN:VEVENT', 'END:VEVENT', 'UID:', 'DTSTAMP:', 'DTSTART:', 'DTEND:', 'SUMMARY:', 'STATUS:CONFIRMED'].forEach(function (k) {
+      cierto(txt.indexOf(k) !== -1, 'falta ' + k);
+    });
+  });
+  probar('las horas se escriben en UTC: 10:00 de Buenos Aires son las 13:00Z', function () {
+    var e = estadoVacio(); var t = turnoConfirmado(e); var txt = I.generarICS(e, t, BASE);
+    cierto(txt.indexOf('DTSTART:20261111T130000Z\r\n') !== -1, 'DTSTART incorrecto');
+    cierto(txt.indexOf('DTEND:20261111T140000Z\r\n') !== -1, 'DTEND incorrecto (60 minutos)');
+    cierto(txt.indexOf('DTSTAMP:20261110T120000Z\r\n') !== -1, 'DTSTAMP incorrecto');
+  });
+  probar('identifica el turno: UID, código en la descripción y nombre de archivo', function () {
+    var e = estadoVacio(); var t = turnoConfirmado(e); var txt = I.generarICS(e, t, BASE);
+    cierto(txt.indexOf('UID:T-0001@spa-demo.example') !== -1, 'UID');
+    cierto(txt.indexOf('T-0001') !== -1 && txt.indexOf('Manicura clásica') !== -1 && txt.indexOf('Pedicura clásica') !== -1, 'la descripción debe nombrar los servicios y el código');
+    igual(I.nombreArchivo(t), 'turno-spa-demo-T-0001.ics');
+  });
+  probar('ninguna línea supera los 75 octetos (aun con acentos y descripciones largas)', function () {
+    var e = estadoVacio(); var t = turnoConfirmado(e);
+    t.serviciosIds = ['m-semi', 'p-spa'];
+    e.servicios.forEach(function (s) { s.nombre = s.nombre + ' con tratamiento hidratante de larga duración y acabado satinado'; });
+    var txt = I.generarICS(e, t, BASE);
+    lineasICS(txt).forEach(function (l) { cierto(bytes(l) <= 75, 'línea de ' + bytes(l) + ' octetos: ' + l.slice(0, 30) + '…'); });
+    cierto(txt.indexOf('\r\n ') !== -1, 'debería haber líneas continuadas');
+  });
+  probar('escapar() trata coma, punto y coma, barra y salto de línea', function () {
+    igual(I.escapar('a,b;c\\d\ne'), 'a\\,b\\;c\\\\d\\ne');
+  });
+  probar('plegar() no corta caracteres de varios bytes y se puede reconstruir', function () {
+    var larga = 'DESCRIPTION:' + new Array(40).join('ñandú ');
+    var plegada = I.plegar(larga);
+    igual(plegada.replace(/\r\n /g, ''), larga, 'al unir las líneas debe quedar el texto original');
+    plegada.split('\r\n').forEach(function (l) { cierto(bytes(l) <= 75, 'línea demasiado larga'); });
+  });
+  probar('solo se puede agregar al calendario un turno confirmado', function () {
+    var e = estadoVacio(); var t = R.iniciarReserva(e, pedido(MIE_10), BASE);
+    lanza(function () { I.generarICS(e, t, BASE); }, 'TURNO_NO_CONFIRMADO', 'reservada');
+    R.resolverPago(e, t.id, 'aprobado', BASE);
+    R.cancelarDesdePanel(e, t.id, { decisionSena: 'quedarme' }, BASE);
+    lanza(function () { I.generarICS(e, t, BASE); }, 'TURNO_NO_CONFIRMADO', 'cancelado');
   });
 
   /* ---------- ejecución y presentación ---------- */
