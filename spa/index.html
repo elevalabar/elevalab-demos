@@ -20,9 +20,10 @@
       <p><a href="../index.html">← Todas las demostraciones</a></p>
       <h1>Spa Demo</h1>
       <p class="apagado" style="max-width:62ch">
-        Demostración de reservas con seña y panel de administración para un spa. Esta página muestra el estado de la
-        <strong>base técnica</strong> (etapas B1 y B2). Las vistas de clienta y de administradora llegan en las próximas etapas.
+        Demostración de reservas con seña y panel de administración para un spa. Desde acá se entra a la vista de la clienta (en construcción) y se ve el estado de la
+        <strong>base técnica</strong>. La vista de administradora llega en una etapa posterior.
       </p>
+      <p><a class="btn btn-oro" href="cliente/index.html">Abrir la vista de la clienta</a></p>
     </section>
 
     <section class="seccion" aria-labelledby="t-estado">
@@ -81,7 +82,7 @@
       var ED = window.ElevaDemo, T = ED.tiempo, D = ED.disponibilidad;
       var almacen = ED.almacen.crear({ storage: ED.almacen.obtenerStorage(), ventana: window });
 
-      ED.shell.montar({ destino: 'demo-shell', vista: 'inicio', rutas: { cliente: null, admin: null }, almacen: almacen });
+      ED.shell.montar({ destino: 'demo-shell', vista: 'inicio', rutas: { cliente: 'cliente/index.html', admin: null }, almacen: almacen });
 
       function pintar(estado) {
         var ahora = T.ahora();
