@@ -75,6 +75,12 @@
         li.appendChild(el('span', 'adm-item-sub', t.serviciosIds.map(function (id) { return R.buscarServicio(estado, id).nombre; }).join(' + ')));
         li.appendChild(el('span', 'adm-item-sub', t.clienta.nombre));
         li.appendChild(etiquetas(t));
+        var ver = el('button', 'enlace-adm', 'Ver en Turnos');
+        ver.type = 'button';
+        ver.setAttribute('data-id', 'ver-' + t.id);
+        ver.setAttribute('aria-label', 'Ver el turno de ' + t.clienta.nombre + ' en Turnos');
+        ver.addEventListener('click', function () { ctx.ir('turnos', { dia: T.claveDia(t.inicio) }); });
+        li.appendChild(ver);
         ul.appendChild(li);
       });
       t2.appendChild(ul);
@@ -86,7 +92,7 @@
     t3.setAttribute('aria-labelledby', 'adm-demo');
     var h3 = el('h3', null, 'Sobre esta demostración'); h3.id = 'adm-demo';
     t3.appendChild(h3);
-    t3.appendChild(el('p', 'apagado', 'Este panel es una simulación con datos ficticios. Por ahora incluye Inicio y Turnos; Clientes, Agenda y Caja se agregan más adelante.'));
+    t3.appendChild(el('p', 'apagado', 'Este panel es una simulación con datos ficticios. Por ahora incluye Inicio y Turnos (con cancelación de turnos); Clientes, Agenda y Caja se agregan más adelante.'));
     if (ctx.rutaCliente) {
       var a = el('a', 'adm-btn adm-btn-sec', 'Ir a la vista de la clienta');
       a.href = ctx.rutaCliente;
