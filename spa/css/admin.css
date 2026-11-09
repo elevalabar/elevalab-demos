@@ -66,3 +66,57 @@ body.vista-admin { background: var(--spa-fondo); }
 .adm-login-caja p { color: var(--spa-apagado); }
 .adm-login-caja .adm-btn { width: 100%; min-height: var(--toque); }
 .adm-login-caja a { color: var(--spa-primario); }
+
+/* enlace dentro de una lista */
+.enlace-adm { justify-self: start; min-height: 44px; padding: 0; background: none; border: 0; font: inherit; color: var(--spa-primario); text-decoration: underline; cursor: pointer; }
+
+/* Turnos: navegación por día */
+.adm-dia-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 12px 0 8px; }
+.adm-nav-btn { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--spa-linea); background: var(--spa-superficie); color: var(--spa-primario-oscuro); font-size: 1.4rem; line-height: 1; cursor: pointer; }
+.adm-nav-btn:hover:not(:disabled) { background: var(--spa-fondo); }
+.adm-nav-btn:disabled, .adm-btn:disabled { opacity: .4; cursor: not-allowed; }
+.adm-fecha input { min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1px solid #8fa39b; background: #fff; color: var(--spa-texto); font: inherit; font-size: 1rem; }
+.adm-btn-chico { min-height: 44px; padding: 0 16px; }
+.adm-dia-titulo { margin: 8px 0 4px; font-size: 1.25rem; }
+.adm-dia-titulo:focus { outline: none; }
+.adm-mensaje { margin: 8px 0; padding: 10px 14px; border-radius: 10px; background: #e1f0e8; color: #1f5a3d; font-weight: 600; }
+
+/* filtros */
+.adm-filtros { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 16px; }
+.adm-filtro { min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--spa-linea); background: var(--spa-superficie); color: var(--spa-texto); font: inherit; font-weight: 600; cursor: pointer; }
+.adm-filtro:hover { border-color: var(--spa-primario); }
+.adm-filtro.activo { background: var(--spa-primario); border-color: var(--spa-primario); color: #fff; }
+
+/* tarjetas de turno */
+.adm-turnos { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); }
+.adm-turno { background: var(--spa-superficie); border: 1px solid var(--spa-linea); border-radius: var(--radio); padding: 16px 18px; }
+.adm-turno-cab { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+.adm-turno-hora { font-weight: 700; font-size: 1.05rem; }
+.adm-turno-serv { margin: 0 0 4px; font-weight: 600; }
+.adm-turno-sub { margin: 0 0 8px; color: var(--spa-apagado); font-size: .95rem; overflow-wrap: anywhere; }
+.adm-turno-nota { margin: 8px 0 0; color: var(--spa-apagado); font-size: .92rem; }
+.adm-turno-acciones { margin-top: 12px; }
+.adm-estado { display: inline-block; padding: 2px 12px; border-radius: 999px; font-size: .82rem; font-weight: 700; }
+.adm-estado.confirmado { background: #e1f0e8; color: #1f5a3d; }
+.adm-estado.finalizado { background: #e5e9e7; color: #3d4a45; }
+.adm-estado.cancelado { background: #f6e2e2; color: #7a2323; }
+.adm-estado.en_revision { background: #fdf3d8; color: #6b4a00; }
+
+/* ventana de confirmación */
+.adm-modal-fondo { position: fixed; inset: 0; z-index: 100; background: rgba(15, 25, 21, .6); display: grid; place-items: center; padding: 16px; overflow-y: auto; }
+.adm-modal { width: 100%; max-width: 520px; background: #fff; color: var(--spa-texto); font-family: var(--spa-fuente); border-radius: var(--radio); padding: 24px; box-shadow: 0 20px 50px rgba(0, 0, 0, .35); }
+.adm-modal :focus-visible { outline: 3px solid var(--spa-primario); outline-offset: 3px; }
+.adm-modal h3 { font-family: var(--spa-fuente-titulo); color: var(--spa-primario-oscuro); margin: 0 0 .4em; }
+.adm-modal h3:focus { outline: none; }
+.adm-modal-resumen { color: var(--spa-apagado); overflow-wrap: anywhere; }
+.adm-opciones { border: 1px solid var(--spa-linea); border-radius: 12px; margin: 12px 0; padding: 8px 14px 6px; }
+.adm-opciones legend { font-weight: 700; padding: 0 6px; }
+.adm-opcion { display: flex; align-items: flex-start; gap: 12px; min-height: 48px; padding: 10px 4px; cursor: pointer; border-radius: 10px; }
+.adm-opcion:hover { background: var(--spa-fondo); }
+.adm-opcion input { flex: 0 0 22px; width: 22px; height: 22px; margin-top: 2px; accent-color: var(--spa-primario); }
+.adm-opcion-txt { display: grid; gap: 2px; }
+.adm-opcion-desc { color: var(--spa-apagado); font-size: .92rem; }
+.adm-error { margin: 8px 0 0; color: #8a2d2d; font-weight: 600; }
+.adm-modal-botones { display: flex; flex-wrap: wrap; gap: 12px; justify-content: flex-end; margin-top: 18px; }
+.adm-btn-peligro { background: #8a2d2d; border-color: #8a2d2d; }
+.adm-btn-peligro:hover:not(:disabled) { background: #6e2222; border-color: #6e2222; }
