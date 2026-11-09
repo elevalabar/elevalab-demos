@@ -2,11 +2,11 @@
    Se abren en el navegador: spa/pruebas/index.html (no necesitan ninguna herramienta ni conexión).
    Usan un reloj fijo (martes 10/11/2026, 09:00 hora de Buenos Aires) y un almacenamiento falso,
    así que no dependen de la fecha real ni tocan los datos guardados de la demo.
-   Depende de: todos los módulos de spa/js/core/ (incluido ics.js) cargados antes. */
+   Depende de: todos los módulos de spa/js/core/ (incluidos ics.js y consultas.js) cargados antes. */
 (function (root) {
   'use strict';
   var ED = root.ElevaDemo;
-  var T = ED.tiempo, E = ED.estados, D = ED.disponibilidad, R = ED.reservas, S = ED.semillas, A = ED.almacen, C = ED.config, I = ED.ics;
+  var T = ED.tiempo, E = ED.estados, D = ED.disponibilidad, R = ED.reservas, S = ED.semillas, A = ED.almacen, C = ED.config, I = ED.ics, Q = ED.consultas;
 
   /* ---------- mini ejecutor ---------- */
   var casos = [], grupoActual = '';
@@ -517,6 +517,76 @@
     R.resolverPago(e, t.id, 'aprobado', BASE);
     R.cancelarDesdePanel(e, t.id, { decisionSena: 'quedarme' }, BASE);
     lanza(function () { I.generarICS(e, t, BASE); }, 'TURNO_NO_CONFIRMADO', 'cancelado');
+  });
+
+  /* ================= CONSULTAS DEL PANEL ================= */
+  grupo('Consultas del panel de administración');
+  var HOY_10 = T.msDeClave('2026-11-10', 600);          // martes 10/11 10:00 (hoy a las 09:00 es antes)
+  function conTurnos() {
+    var e = estadoVacio();
+    var a = R.iniciarReserva(e, pedido(HOY_10 + 6 * 3600000), BASE); R.resolverPago(e, a.id, 'aprobado', BASE);       // hoy 16:00 confirmado
+    var b = R.iniciarReserva(e, pedido(T.msDeClave('2026-11-10', 660)), BASE); R.resolverPago(e, b.id, 'aprobado', BASE); // hoy 11:00 confirmado
+    var c = R.iniciarReserva(e, pedido(T.msDeClave('2026-11-11', 600)), BASE); R.resolverPago(e, c.id, 'aprobado', BASE); // mañana 10:00
+    var d = R.iniciarReserva(e, pedido(T.msDeClave('2026-11-12', 600)), BASE);                                           // jueves, retenida
+    return { e: e, a: a, b: b, c: c, d: d };
+  }
+  probar('el panel muestra confirmados, cancelados y en revisión; no muestra reservas retenidas ni vencidas', function () {
+    var x = conTurnos();
+    igual(Q.turnosDelDia(x.e, '2026-11-12').length, 0, 'la reservada no se muestra');
+    x.d.estado = 'vencida'; igual(Q.turnosDelDia(x.e, '2026-11-12').length, 0, 'la vencida no se muestra');
+    x.d.estado = 'en_revision'; igual(Q.turnosDelDia(x.e, '2026-11-12').length, 1, 'en revisión sí');
+    R.cancelarDesdePanel(x.e, x.c.id, { decisionSena: 'quedarme' }, BASE);
+    igual(Q.turnosDelDia(x.e, '2026-11-11').length, 1, 'el cancelado sí se muestra');
+  });
+  probar('turnosDelDia ordena por hora y separa por día (hora de Buenos Aires)', function () {
+    var x = conTurnos(); var l = Q.turnosDelDia(x.e, '2026-11-10');
+    igual(l.length, 2); igual(l[0].id, x.b.id, 'primero las 11:00'); igual(l[1].id, x.a.id, 'después las 16:00');
+    igual(Q.turnosDelDia(x.e, '2026-11-11').length, 1);
+  });
+  probar('resumenHoy separa por venir y finalizados, y no cuenta los cancelados', function () {
+    var x = conTurnos();
+    var r = Q.resumenHoy(x.e, BASE); igual(r.total, 2); igual(r.porVenir, 2); igual(r.finalizados, 0);
+    var tarde = T.aMs(2026, 11, 10, 13, 0);              // ya pasaron las 11:00 (terminó 12:00)
+    r = Q.resumenHoy(x.e, tarde); igual(r.total, 2); igual(r.porVenir, 1); igual(r.finalizados, 1);
+    R.cancelarDesdePanel(x.e, x.a.id, { decisionSena: 'devolver' }, tarde);
+    r = Q.resumenHoy(x.e, tarde); igual(r.total, 1, 'el cancelado no cuenta');
+  });
+  probar('proximosTurnos devuelve los próximos confirmados que no empezaron, en orden y limitados', function () {
+    var x = conTurnos();
+    var p = Q.proximosTurnos(x.e, BASE, 3); igual(p.length, 3);
+    igual(p.map(function (t) { return t.id; }).join(','), [x.b.id, x.a.id, x.c.id].join(','));
+    igual(Q.proximosTurnos(x.e, BASE, 2).length, 2);
+    igual(Q.proximosTurnos(x.e, T.aMs(2026, 11, 10, 11, 30), 3).length, 2, 'uno ya empezó');
+    R.cancelarDesdePanel(x.e, x.c.id, { decisionSena: 'quedarme' }, BASE);
+    igual(Q.proximosTurnos(x.e, BASE, 3).length, 2, 'los cancelados no son próximos');
+  });
+  probar('filtros y contadores del panel (Todos, Confirmados, Finalizados, Cancelados)', function () {
+    var x = conTurnos(); var tarde = T.aMs(2026, 11, 10, 13, 0);
+    R.cancelarDesdePanel(x.e, x.a.id, { decisionSena: 'quedarme' }, tarde);
+    var lista = Q.turnosDelDia(x.e, '2026-11-10');
+    var c = Q.contarPorFiltro(lista, tarde);
+    igual(c.todos, 2); igual(c.finalizado, 1); igual(c.cancelado, 1); igual(c.confirmado, 0);
+    igual(Q.filtrar(lista, 'cancelado', tarde)[0].id, x.a.id); igual(Q.filtrar(lista, 'finalizado', tarde)[0].id, x.b.id);
+    igual(Q.filtrar(lista, 'todos', tarde).length, 2); igual(Q.filtrar(lista, 'confirmado', tarde).length, 0);
+  });
+  probar('límites de días: 30 hacia atrás y la ventana de reservas hacia adelante', function () {
+    var l = Q.limitesDias(estadoVacio(), BASE);
+    igual(l.min, '2026-10-11'); igual(l.max, '2027-01-09');
+  });
+  probar('insignia de seña: pagada, devolución registrada, retenida y sin seña', function () {
+    var e = estadoVacio(); var t = R.iniciarReserva(e, pedido(MIE_10), BASE);
+    igual(Q.insigniaSena(t), null, 'pendiente: sin insignia');
+    R.resolverPago(e, t.id, 'aprobado', BASE); igual(Q.insigniaSena(t).tipo, 'pagada');
+    R.cancelarDesdePanel(e, t.id, { decisionSena: 'devolver' }, BASE); igual(Q.insigniaSena(t).tipo, 'devuelta');
+    cierto(Q.insigniaSena(t).texto.indexOf('no real') !== -1, 'debe aclarar que no es una devolución real');
+    var u = R.iniciarReserva(e, pedido(MIE_11), BASE); R.resolverPago(e, u.id, 'aprobado', BASE);
+    R.cancelarDesdePanel(e, u.id, { decisionSena: 'quedarme' }, BASE); igual(Q.insigniaSena(u).tipo, 'retenida');
+    igual(Q.insigniaSena({ sena: null }), null, 'turno cargado desde el panel');
+  });
+  probar('con los datos de ejemplo, el panel tiene qué mostrar hoy o en los próximos días', function () {
+    var e = S.crearEstadoInicial(BASE);
+    cierto(Q.proximosTurnos(e, BASE, 3).length === 3, 'deberían verse 3 próximos turnos');
+    cierto(e.turnos.some(function (t) { return Q.visibleEnPanel(t); }));
   });
 
   /* ---------- ejecución y presentación ---------- */
