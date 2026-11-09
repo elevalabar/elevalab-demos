@@ -1,0 +1,68 @@
+/* Spa Demo · panel de administración
+   Mobile-first: en celular la navegación queda abajo; en pantallas anchas pasa arriba, debajo de la cabecera.
+   Usa la marca ficticia del spa. Depende de: assets/css/elevalab-tokens.css, base.css, demo-shell.css y css/marca-spa.css. */
+body.vista-admin { background: var(--spa-fondo); }
+.adm { display: flex; flex-direction: column; min-height: 100vh; color: var(--spa-texto); font-family: var(--spa-fuente); }
+.adm a { color: var(--spa-primario); }
+.adm :focus-visible, .adm-login :focus-visible { outline: 3px solid var(--spa-primario); outline-offset: 3px; }
+.adm h2, .adm h3, .adm-login h2 { font-family: var(--spa-fuente-titulo); color: var(--spa-primario-oscuro); font-weight: 600; }
+.adm .apagado, .adm-login .apagado { color: var(--spa-apagado); }
+.adm .pequeno, .adm-login .pequeno { font-size: .9rem; }
+
+/* cabecera */
+.adm-cab { order: 1; background: var(--spa-superficie); border-bottom: 1px solid var(--spa-linea); }
+.adm-cab .contenedor { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 64px; }
+.adm-marca { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.adm-marca img { display: block; height: 36px; width: auto; flex: none; }
+.adm-marca span { font-weight: 700; color: var(--spa-primario-oscuro); }
+.adm-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 20px; border-radius: 999px; font: inherit; font-weight: 600; cursor: pointer; border: 1px solid var(--spa-primario); background: var(--spa-primario); color: #fff; text-decoration: none; }
+.adm-btn:hover { background: var(--spa-primario-oscuro); color: #fff; }
+.adm-btn-sec { background: transparent; color: var(--spa-primario-oscuro); }
+.adm-btn-sec:hover { background: var(--spa-fondo); color: var(--spa-primario-oscuro); }
+
+/* navegación */
+.adm-nav { display: flex; background: var(--spa-superficie); border-top: 1px solid var(--spa-linea); }
+.adm-nav a { flex: 1 1 0; display: flex; align-items: center; justify-content: center; min-height: 56px; font-weight: 600; text-decoration: none; color: var(--spa-apagado); border-top: 3px solid transparent; }
+.adm-nav a[aria-current="page"] { color: var(--spa-primario-oscuro); border-top-color: var(--spa-primario); background: var(--spa-fondo); }
+@media (max-width: 799px) {
+  .adm-nav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .adm-main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
+}
+@media (min-width: 800px) {
+  .adm-nav { order: 2; border-top: 0; border-bottom: 1px solid var(--spa-linea); justify-content: center; }
+  .adm-nav a { flex: 0 0 180px; border-top: 0; border-bottom: 3px solid transparent; min-height: 52px; }
+  .adm-nav a[aria-current="page"] { border-bottom-color: var(--spa-primario); }
+}
+
+/* contenido */
+.adm-main { order: 3; flex: 1 1 auto; padding: 24px 0 32px; }
+.adm-main:focus { outline: none; }
+.adm-titulo { margin: 0 0 .2em; font-size: clamp(1.4rem, 4vw, 1.9rem); }
+.adm-titulo:focus { outline: none; }
+.adm-grilla { display: grid; gap: 16px; margin-top: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
+.adm-tarjeta { background: var(--spa-superficie); border: 1px solid var(--spa-linea); border-radius: var(--radio); padding: 20px; }
+.adm-tarjeta h3 { margin: 0 0 .5em; font-size: 1.1rem; }
+.adm-numero { font-family: var(--spa-fuente-titulo); font-size: 2.8rem; line-height: 1; margin: 0 0 6px; color: var(--spa-primario-oscuro); }
+.adm-detalle { margin: 0; color: var(--spa-apagado); }
+
+/* lista de turnos */
+.adm-lista { list-style: none; margin: 0; padding: 0; }
+.adm-item { padding: 12px 0; border-top: 1px solid var(--spa-linea); display: grid; gap: 4px; }
+.adm-item:first-child { border-top: 0; padding-top: 0; }
+.adm-item-hora { font-weight: 700; }
+.adm-item-sub { color: var(--spa-apagado); font-size: .95rem; overflow-wrap: anywhere; }
+.adm-etiquetas { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+.adm-insignia { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: .8rem; font-weight: 700; border: 1px solid transparent; }
+.adm-insignia.pagada { background: #e1f0e8; color: #1f5a3d; border-color: #b5d6c4; }
+.adm-insignia.devuelta, .adm-insignia.retenida { background: #fdf3d8; color: #6b4a00; border-color: #ead9a6; }
+.adm-insignia.origen { background: transparent; color: var(--spa-apagado); border-color: var(--spa-linea); font-weight: 600; }
+.adm-vacio { color: var(--spa-apagado); margin: 0; }
+
+/* ingreso */
+.adm-login { min-height: 70vh; display: grid; place-items: center; padding: 24px var(--pad); color: var(--spa-texto); font-family: var(--spa-fuente); }
+.adm-login-caja { width: 100%; max-width: 440px; background: var(--spa-superficie); border: 1px solid var(--spa-linea); border-radius: var(--radio); padding: 28px 24px; text-align: center; }
+.adm-login-caja img { display: block; width: min(220px, 80%); height: auto; margin: 0 auto 16px; }
+.adm-login-caja h2 { margin: 0 0 .4em; }
+.adm-login-caja p { color: var(--spa-apagado); }
+.adm-login-caja .adm-btn { width: 100%; min-height: var(--toque); }
+.adm-login-caja a { color: var(--spa-primario); }
