@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Panel de administración · Spa Demo (demostración)</title>
+  <meta name="theme-color" content="#234638">
+  <link rel="icon" type="image/svg+xml" href="../img/spa-demo-marca.svg">
+  <link rel="stylesheet" href="../../assets/css/elevalab-tokens.css">
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="../../assets/css/demo-shell.css">
+  <link rel="stylesheet" href="../css/marca-spa.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="vista-admin">
+  <div id="demo-shell"></div>
+  <div id="panel"></div>
+  <noscript><p class="contenedor">Para usar la demostración hace falta JavaScript.</p></noscript>
+
+  <script src="../js/core/config-demo.js"></script>
+  <script src="../js/core/tiempo.js"></script>
+  <script src="../js/core/estados.js"></script>
+  <script src="../js/core/disponibilidad.js"></script>
+  <script src="../js/core/reservas.js"></script>
+  <script src="../js/core/consultas.js"></script>
+  <script src="../js/core/semillas.js"></script>
+  <script src="../js/core/almacen.js"></script>
+  <script src="../../assets/js/demo-shell.js"></script>
+  <script src="../js/admin/inicio.js"></script>
+  <script src="../js/admin/panel.js"></script>
+  <script>
+    (function () {
+      var ED = window.ElevaDemo;
+      var almacen = ED.almacen.crear({ storage: ED.almacen.obtenerStorage(), ventana: window });
+      ED.shell.montar({ destino: 'demo-shell', vista: 'admin', rutas: { cliente: '../cliente/index.html', admin: 'index.html' }, almacen: almacen });
+      ED.panel.montar({ almacen: almacen, destino: 'panel', logo: '../img/spa-demo-logo.svg', cliente: '../cliente/index.html' });
+    })();
+  </script>
+</body>
+</html>
