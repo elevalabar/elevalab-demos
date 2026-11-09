@@ -1,7 +1,8 @@
 /* Spa Demo · panel de administración · estructura general
    - Ingreso: botón «Entrar como administradora (demo)», sin usuario ni contraseña (no hay inicio de sesión real).
    - Cabecera con «Salir», navegación (abajo en celular, arriba en pantallas anchas) y una sección por pantalla.
-   - Cada sección se registra en ElevaDemo.adminSecciones (inicio.js, turnos.js) y recibe un contexto con el estado.
+   - Cada sección se registra en ElevaDemo.adminSecciones (inicio.js, turnos.js) y recibe un contexto con el estado
+     (más ir() para cambiar de sección y redibujar() para actualizarse).
    - Se redibuja sola cuando cambian los datos (por ejemplo, si la clienta reserva desde otra pestaña).
    La sesión de la demo dura lo que dura la pestaña (sessionStorage); no guarda nada más.
    Depende de: spa/js/core/ y de las secciones cargadas antes que este archivo. */
@@ -50,18 +51,29 @@
       });
     }
 
+    // Cambia de sección (opcionalmente con datos, por ejemplo el día a mostrar en Turnos).
+    function ir(nombre, parametros) {
+      ED.adminParametros = parametros || null;
+      if (seccionActual() === nombre) dibujarSeccion(true); else root.location.hash = '#' + nombre;
+    }
+
     function dibujarSeccion(enfocarTitulo) {
       if (!main) return;
       var activo = doc.activeElement && doc.activeElement.getAttribute ? doc.activeElement.getAttribute('data-id') : null;
       var nombre = seccionActual();
       var seccion = ED.adminSecciones[nombre];
-      var ctx = { almacen: almacen, estado: almacen.leer(), ahora: T.ahora(), rutaCliente: opc.cliente, anunciar: anunciar };
+      var parametros = ED.adminParametros || null;     // datos de una navegación («ir a Turnos en tal día»); se usan una sola vez
+      ED.adminParametros = null;
+      var ctx = {
+        almacen: almacen, estado: almacen.leer(), ahora: T.ahora(), rutaCliente: opc.cliente, anunciar: anunciar,
+        parametros: parametros, ir: ir, redibujar: function () { dibujarSeccion(false); }
+      };
       main.textContent = '';
       if (seccion) seccion.render(main, ctx);
       else {
         var h = el('h2', 'adm-titulo', 'Turnos'); h.id = 'adm-titulo'; h.tabIndex = -1;
         main.appendChild(h);
-        main.appendChild(el('p', 'apagado', 'Esta sección llega en la próxima entrega (B4.2).'));
+        main.appendChild(el('p', 'apagado', 'Esta sección todavía no está disponible.'));
       }
       marcarNav();
       var foco = null;
