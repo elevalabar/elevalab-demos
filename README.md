@@ -18,7 +18,7 @@ Cada demo es una **simulación independiente**: usa una marca ficticia y datos f
 | B1 | Estructura, identidad ElevaLab, marca ficticia, marco de la demo | Hecha |
 | B2 | Módulos de agenda, estados, tiempo y almacenamiento, con pruebas | Hecha |
 | B3 | Vista de la clienta: reserva con seña simulada, pasarela ficticia, confirmación y calendario `.ics` | Hecha |
-| B4 | Panel de administración: Inicio y Turnos | Pendiente |
+| B4 | Panel de administración: ingreso, Inicio y Turnos (con cancelación y decisión sobre la seña) | Hecha |
 
 ## Estructura
 
@@ -32,14 +32,16 @@ assets/                     identidad y marco común de todas las demos
 docs/                       alcance y reglas de negocio reproducidas
 spa/                        demo de gestión de spa («Spa Demo», marca ficticia)
   index.html                entrada y estado de la demo
+  admin/index.html          panel de administración (Inicio y Turnos)
   cliente/                  vista de la clienta
     index.html              portada y asistente de reserva (4 pasos)
     pago/index.html         pasarela de pago SIMULADA
     turno/index.html        estado de la reserva y calendario .ics
-  css/ marca-spa.css, cliente.css, pasarela.css, turno.css
+  css/ marca-spa.css, cliente.css, pasarela.css, turno.css, admin.css
   img/ spa-demo-logo.svg, spa-demo-marca.svg
   js/core/                  lógica de la demo (sin pantallas)
   js/cliente/               pantallas de la clienta (asistente, pasarela, retorno)
+  js/admin/                 pantallas del panel (panel, inicio, turnos)
   pruebas/                  pruebas automáticas (se abren en el navegador)
 ```
 
