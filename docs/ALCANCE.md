@@ -20,8 +20,7 @@ Describe **capacidades**; no afirma nada sobre el estado de producción de ning�
 
 ## Qué se construye y en qué orden
 
-- **B1 y B2 (hechas):** estructura, identidad, marco de la demo y lógica interna (agenda, estados, reservas, almacenamiento) con pruebas.
-- **V1:** recorrido completo de la clienta hasta la confirmación, y en el panel Inicio y Turnos con la reserva confirmada con seña y la cancelación.
+- **V1 (hecha):** recorrido completo de la clienta hasta la confirmación con calendario `.ics`, y en el panel de administración ingreso sin credenciales, Inicio y Turnos, donde la reserva figura como confirmada con seña y se puede cancelar eligiendo devolver la seña (solo se registra la decisión) o quedarse con ella.
 - **Después:** mover turnos y «Mi turno» (cambiar y cancelar), bandeja de mails simulada, Clientes, Agenda y Caja.
 
 ## Qué la demo NO incluye ni afirma
