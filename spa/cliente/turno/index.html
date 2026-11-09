@@ -55,7 +55,7 @@
     (function () {
       var ED = window.ElevaDemo;
       var almacen = ED.almacen.crear({ storage: ED.almacen.obtenerStorage(), ventana: window });
-      ED.shell.montar({ destino: 'demo-shell', vista: 'cliente', rutas: { cliente: '../index.html', admin: null }, almacen: almacen });
+      ED.shell.montar({ destino: 'demo-shell', vista: 'cliente', rutas: { cliente: '../index.html', admin: '../../admin/index.html' }, almacen: almacen });
       ED.retorno.montar({ almacen: almacen, destino: 'estado-turno', pago: '../pago/index.html', inicio: '../index.html#reserva' });
     })();
   </script>
