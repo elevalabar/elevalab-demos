@@ -41,7 +41,7 @@
     function mensaje(titulo, texto) {
       cont.textContent = '';
       var caja = el('div', 'pasarela-tarjeta');
-      caja.appendChild(el('h2', null, titulo));
+      caja.appendChild(el('h1', null, titulo));
       caja.appendChild(el('p', null, texto));
       var a = el('a', 'pg-btn pg-btn-sec', 'Volver al spa');
       a.href = opc.inicio;
@@ -92,7 +92,7 @@
       banner.appendChild(doc.createTextNode(' · No se cobra nada. No ingreses datos de ninguna tarjeta.'));
       caja.appendChild(banner);
 
-      var h = el('h2', null, 'Pasarela de pago (simulada)');
+      var h = el('h1', null, 'Pasarela de pago (simulada)');
       h.id = 'titulo-pasarela'; h.tabIndex = -1;
       caja.appendChild(h);
 
