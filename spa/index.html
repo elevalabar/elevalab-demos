@@ -4,13 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="robots" content="noindex, nofollow">
-  <title>Spa Demo · estado de la demostración · ElevaLab</title>
+  <title>Spa Demo · demostración de gestión de spa · ElevaLab</title>
   <meta name="theme-color" content="#0b0b0d">
   <link rel="icon" type="image/svg+xml" href="img/spa-demo-marca.svg">
   <link rel="stylesheet" href="../assets/css/elevalab-tokens.css">
   <link rel="stylesheet" href="../assets/css/base.css">
   <link rel="stylesheet" href="../assets/css/demo-shell.css">
   <link rel="stylesheet" href="css/marca-spa.css">
+  <style>
+    .guia { margin: 0; padding-left: 1.3em; max-width: 70ch; }
+    .guia li { margin-bottom: .8em; }
+    .guia strong { color: var(--oro); }
+  </style>
 </head>
 <body>
   <div id="demo-shell"></div>
@@ -20,14 +25,24 @@
       <p><a href="../index.html">← Todas las demostraciones</a></p>
       <h1>Spa Demo</h1>
       <p class="apagado" style="max-width:62ch">
-        Demostración de reservas con seña y panel de administración para un spa. Desde acá se entra a la vista de la clienta y al panel de administración (en construcción), y se ve el estado de la
-        <strong>base técnica</strong>.
+        Demostración de un sistema de reservas con seña y panel de administración para un spa. Todo es simulado:
+        los datos son ficticios y no se conecta a ningún servicio real.
       </p>
-      <p style="display:flex;flex-wrap:wrap;gap:12px"><a class="btn btn-oro" href="cliente/index.html">Abrir la vista de la clienta</a> <a class="btn" href="admin/index.html">Abrir el panel de administración</a></p>
+      <p style="display:flex;flex-wrap:wrap;gap:12px"><a class="btn btn-oro" href="cliente/index.html">Abrir la vista de la clienta</a> <a class="btn" href="admin/index.html">Abrir el panel de la administradora</a></p>
+    </section>
+
+    <section class="seccion" aria-labelledby="t-recorrido">
+      <h2 id="t-recorrido">Cómo recorrerla</h2>
+      <ol class="guia">
+        <li><strong>Como clienta:</strong> abrí la vista de la clienta, elegí día, horario y servicios, completá datos de ejemplo y tocá «Reservar y pagar seña».</li>
+        <li><strong>Pago simulado:</strong> en la pasarela ficticia elegí «pago aprobado» para confirmar el turno, o «no completado» para ver cómo el horario queda guardado hasta que se agota el contador (con el «Modo rápido» tarda 60 segundos).</li>
+        <li><strong>Como administradora:</strong> cambiá a «Administradora» en la barra de arriba. La reserva aparece como confirmada, con seña pagada, en Inicio y en Turnos.</li>
+        <li><strong>Cancelación:</strong> en Turnos podés cancelarla eligiendo devolver la seña (solo se registra, no hay devolución real) o quedártela. El horario vuelve a quedar libre para la clienta.</li>
+      </ol>
     </section>
 
     <section class="seccion" aria-labelledby="t-estado">
-      <h2 id="t-estado">Estado de la base</h2>
+      <h2 id="t-estado">Datos de esta demostración</h2>
       <div class="rejilla">
         <div class="tarjeta">
           <h3>Almacenamiento</h3>
