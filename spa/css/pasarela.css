@@ -5,8 +5,8 @@ body.vista-pasarela { background: #eceef1; }
 .pasarela-pagina { color: #1f2933; font-family: var(--fuente); padding: 24px 0 48px; }
 .pasarela-pagina :focus-visible { outline: 3px solid #1f2933; outline-offset: 3px; }
 .pasarela-tarjeta { max-width: 520px; margin: 0 auto; background: #fff; border: 1px solid #cfd4da; border-radius: 12px; padding: 24px; }
-.pasarela-tarjeta h2 { color: #1f2933; font-size: 1.35rem; margin: 0 0 .8em; }
-.pasarela-tarjeta h2:focus { outline: none; }
+.pasarela-tarjeta h1 { color: #1f2933; font-size: 1.35rem; margin: 0 0 .8em; }
+.pasarela-tarjeta h1:focus { outline: none; }
 .pasarela-banner { margin: 0 0 16px; padding: 12px 14px; border-radius: 8px; background: #fff4cc; border: 2px dashed #8a6d00; color: #4a3a00; font-size: .95rem; }
 .pasarela-banner strong { letter-spacing: .08em; }
 .pasarela-datos { margin: 0 0 16px; }
