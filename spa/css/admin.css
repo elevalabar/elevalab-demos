@@ -5,7 +5,7 @@ body.vista-admin { background: var(--spa-fondo); }
 .adm { display: flex; flex-direction: column; min-height: 100vh; color: var(--spa-texto); font-family: var(--spa-fuente); }
 .adm a { color: var(--spa-primario); }
 .adm :focus-visible, .adm-login :focus-visible { outline: 3px solid var(--spa-primario); outline-offset: 3px; }
-.adm h2, .adm h3, .adm-login h2 { font-family: var(--spa-fuente-titulo); color: var(--spa-primario-oscuro); font-weight: 600; }
+.adm h1, .adm h2, .adm h3, .adm-login h1 { font-family: var(--spa-fuente-titulo); color: var(--spa-primario-oscuro); font-weight: 600; }
 .adm .apagado, .adm-login .apagado { color: var(--spa-apagado); }
 .adm .pequeno, .adm-login .pequeno { font-size: .9rem; }
 
@@ -41,7 +41,7 @@ body.vista-admin { background: var(--spa-fondo); }
 .adm-titulo:focus { outline: none; }
 .adm-grilla { display: grid; gap: 16px; margin-top: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
 .adm-tarjeta { background: var(--spa-superficie); border: 1px solid var(--spa-linea); border-radius: var(--radio); padding: 20px; }
-.adm-tarjeta h3 { margin: 0 0 .5em; font-size: 1.1rem; }
+.adm-tarjeta h2 { margin: 0 0 .5em; font-size: 1.1rem; }
 .adm-numero { font-family: var(--spa-fuente-titulo); font-size: 2.8rem; line-height: 1; margin: 0 0 6px; color: var(--spa-primario-oscuro); }
 .adm-detalle { margin: 0; color: var(--spa-apagado); }
 
@@ -62,7 +62,7 @@ body.vista-admin { background: var(--spa-fondo); }
 .adm-login { min-height: 70vh; display: grid; place-items: center; padding: 24px var(--pad); color: var(--spa-texto); font-family: var(--spa-fuente); }
 .adm-login-caja { width: 100%; max-width: 440px; background: var(--spa-superficie); border: 1px solid var(--spa-linea); border-radius: var(--radio); padding: 28px 24px; text-align: center; }
 .adm-login-caja img { display: block; width: min(220px, 80%); height: auto; margin: 0 auto 16px; }
-.adm-login-caja h2 { margin: 0 0 .4em; }
+.adm-login-caja h1 { margin: 0 0 .4em; font-size: 1.6rem; }
 .adm-login-caja p { color: var(--spa-apagado); }
 .adm-login-caja .adm-btn { width: 100%; min-height: var(--toque); }
 .adm-login-caja a { color: var(--spa-primario); }
