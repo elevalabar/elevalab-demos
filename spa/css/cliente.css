@@ -6,7 +6,7 @@ body.vista-cliente { background: var(--spa-fondo); }
 .spa-pagina a { color: var(--spa-primario); }
 .spa-pagina a:hover { color: var(--spa-primario-oscuro); }
 .spa-pagina :focus-visible { outline: 3px solid var(--spa-primario); outline-offset: 3px; }
-.spa-pagina h2, .spa-pagina h3, .spa-pagina h4 { font-family: var(--spa-fuente-titulo); color: var(--spa-primario-oscuro); font-weight: 600; }
+.spa-pagina h1, .spa-pagina h2, .spa-pagina h3, .spa-pagina h4 { font-family: var(--spa-fuente-titulo); color: var(--spa-primario-oscuro); font-weight: 600; }
 .spa-pagina .apagado { color: var(--spa-apagado); }
 
 /* cabecera */
@@ -109,3 +109,29 @@ body.vista-cliente { background: var(--spa-fondo); }
 
 .spa-pie { border-top: 1px solid var(--spa-linea); color: var(--spa-apagado); font-size: .9rem; padding: 24px 0 40px; }
 .contenedor.seccion { padding-top: 40px; padding-bottom: 40px; }
+
+/* paso 3: datos de la clienta */
+.btn-chico { min-height: 44px; padding: 0 18px; margin: 8px 0 16px; }
+.datos-form { margin-top: 4px; }
+.campo { margin-bottom: 16px; }
+.campo label { display: block; font-weight: 600; margin-bottom: 6px; }
+.campo input {
+  width: 100%; min-height: var(--toque); padding: 0 14px; border-radius: 10px;
+  border: 1px solid #8fa39b; background: #fff; color: var(--spa-texto); font: inherit; font-size: 1rem; /* 16px: evita el zoom en iPhone */
+}
+.campo input::placeholder { color: #6b7d76; }
+.campo input[aria-invalid="true"] { border-color: #a63a3a; box-shadow: 0 0 0 1px #a63a3a; }
+.campo-error { margin: 6px 0 0; color: #8a2d2d; font-weight: 600; font-size: .92rem; }
+
+/* paso 4: revisar y pagar la seña */
+.revision { margin: 0 0 20px; }
+.revision dt { font-size: .82rem; text-transform: uppercase; letter-spacing: .04em; color: var(--spa-apagado); margin-top: 14px; }
+.revision dd { margin: 2px 0 0; font-weight: 600; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; overflow-wrap: anywhere; }
+.revision ul { margin: 0; padding-left: 18px; flex: 1 1 100%; }
+.sena, .politica { border: 1px solid var(--spa-linea); border-radius: 12px; padding: 16px 18px; margin: 0 0 16px; background: var(--spa-fondo); }
+.sena h4, .politica h4 { margin: 0 0 .4em; font-size: 1.05rem; }
+.sena-monto { font-size: 1.5rem; margin: 0 0 .4em; }
+.sena-monto .apagado { font-size: .95rem; font-weight: 400; }
+.politica ul { margin: 0 0 .6em; padding-left: 20px; }
+.politica li { margin-bottom: .3em; }
+.nota-pago { margin: 12px 0 0; text-align: right; }
