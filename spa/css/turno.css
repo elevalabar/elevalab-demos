@@ -5,8 +5,8 @@
 .turno-icono { width: 64px; height: 64px; margin: 0 auto 12px; display: grid; place-items: center; border-radius: 50%; font-size: 1.8rem; font-weight: 700; background: var(--spa-fondo); color: var(--spa-primario-oscuro); }
 .turno-ok .turno-icono { background: var(--spa-primario); color: #fff; }
 .turno-pendiente .turno-icono { background: #fdf3d8; color: #6b4a00; }
-.turno-caja h2 { margin-bottom: .3em; }
-.turno-caja h2:focus { outline: none; }
+.turno-caja h1 { margin-bottom: .3em; font-size: clamp(1.4rem, 4vw, 1.9rem); }
+.turno-caja h1:focus { outline: none; }
 .turno-texto { color: var(--spa-apagado); max-width: 52ch; margin: 0 auto 16px; }
 .turno-cuenta { margin: 0 0 16px; font-size: 1.1rem; }
 .turno-cuenta strong { font-variant-numeric: tabular-nums; }
