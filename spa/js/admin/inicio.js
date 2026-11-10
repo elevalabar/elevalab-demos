@@ -36,7 +36,7 @@
   function renderizar(cont, ctx) {
     var estado = ctx.estado, ahora = ctx.ahora, hoy = T.claveDia(ahora);
 
-    var h = el('h2', 'adm-titulo', 'Inicio');
+    var h = el('h1', 'adm-titulo', 'Inicio');
     h.id = 'adm-titulo'; h.tabIndex = -1;
     cont.appendChild(h);
     cont.appendChild(el('p', 'apagado', 'Hola, administradora. Hoy es ' + T.etiquetaDia(hoy) + '.'));
@@ -47,7 +47,7 @@
     var res = Q.resumenHoy(estado, ahora);
     var t1 = el('section', 'adm-tarjeta');
     t1.setAttribute('aria-labelledby', 'adm-hoy');
-    var h1 = el('h3', null, 'Turnos de hoy'); h1.id = 'adm-hoy';
+    var h1 = el('h2', null, 'Turnos de hoy'); h1.id = 'adm-hoy';
     t1.appendChild(h1);
     t1.appendChild(el('p', 'adm-numero', String(res.total)));
     if (res.total === 0) {
@@ -63,7 +63,7 @@
     // Próximos turnos
     var t2 = el('section', 'adm-tarjeta');
     t2.setAttribute('aria-labelledby', 'adm-prox');
-    var h2 = el('h3', null, 'Próximos turnos'); h2.id = 'adm-prox';
+    var h2 = el('h2', null, 'Próximos turnos'); h2.id = 'adm-prox';
     t2.appendChild(h2);
     var prox = Q.proximosTurnos(estado, ahora, 3);
     if (prox.length === 0) t2.appendChild(el('p', 'adm-vacio', 'No hay turnos próximos.'));
@@ -78,7 +78,7 @@
         var ver = el('button', 'enlace-adm', 'Ver en Turnos');
         ver.type = 'button';
         ver.setAttribute('data-id', 'ver-' + t.id);
-        ver.setAttribute('aria-label', 'Ver el turno de ' + t.clienta.nombre + ' en Turnos');
+        ver.setAttribute('aria-label', 'Ver en Turnos: turno de ' + t.clienta.nombre);
         ver.addEventListener('click', function () { ctx.ir('turnos', { dia: T.claveDia(t.inicio) }); });
         li.appendChild(ver);
         ul.appendChild(li);
@@ -90,7 +90,7 @@
     // Sobre la demo
     var t3 = el('section', 'adm-tarjeta');
     t3.setAttribute('aria-labelledby', 'adm-demo');
-    var h3 = el('h3', null, 'Sobre esta demostración'); h3.id = 'adm-demo';
+    var h3 = el('h2', null, 'Sobre esta demostración'); h3.id = 'adm-demo';
     t3.appendChild(h3);
     t3.appendChild(el('p', 'apagado', 'Este panel es una simulación con datos ficticios. Por ahora incluye Inicio y Turnos (con cancelación de turnos); Clientes, Agenda y Caja se agregan más adelante.'));
     if (ctx.rutaCliente) {
