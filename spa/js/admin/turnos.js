@@ -166,7 +166,7 @@
     if (ui.dia < lim.min) ui.dia = lim.min;
     if (ui.dia > lim.max) ui.dia = lim.max;
 
-    var h = el('h2', 'adm-titulo', 'Turnos');
+    var h = el('h1', 'adm-titulo', 'Turnos');
     h.id = 'adm-titulo'; h.tabIndex = -1;
     cont.appendChild(h);
 
@@ -192,7 +192,7 @@
     nav.appendChild(ant); nav.appendChild(etqFecha); nav.appendChild(sig); nav.appendChild(hoyBtn);
     cont.appendChild(nav);
 
-    var th = el('h3', 'adm-dia-titulo', cap(T.etiquetaDia(ui.dia)) + (ui.dia === hoy ? ' (hoy)' : ''));
+    var th = el('h2', 'adm-dia-titulo', cap(T.etiquetaDia(ui.dia)) + (ui.dia === hoy ? ' (hoy)' : ''));
     th.id = 'adm-titulo-dia'; th.tabIndex = -1;
     cont.appendChild(th);
 
