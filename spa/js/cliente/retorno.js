@@ -61,7 +61,7 @@
       var caja = el('section', 'turno-caja ' + clase);
       caja.setAttribute('aria-labelledby', 'titulo-estado');
       caja.appendChild(el('p', 'turno-icono', icono)).setAttribute('aria-hidden', 'true');
-      var h = el('h2', null, titulo); h.id = 'titulo-estado'; h.tabIndex = -1;
+      var h = el('h1', null, titulo); h.id = 'titulo-estado'; h.tabIndex = -1;
       caja.appendChild(h);
       if (texto) caja.appendChild(el('p', 'turno-texto', texto));
       return caja;
