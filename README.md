@@ -19,12 +19,15 @@ Cada demo es una **simulación independiente**: usa una marca ficticia y datos f
 | B2 | Módulos de agenda, estados, tiempo y almacenamiento, con pruebas | Hecha |
 | B3 | Vista de la clienta: reserva con seña simulada, pasarela ficticia, confirmación y calendario `.ics` | Hecha |
 | B4 | Panel de administración: ingreso, Inicio y Turnos (con cancelación y decisión sobre la seña) | Hecha |
+| B5 | Revisión final: accesibilidad (auditoría automática sin errores), responsive, conexiones y datos | Hecha |
+| B6 | Subdominio `demos.elevalab.com.ar` (GitHub Pages + registro CNAME en el DNS) | Se configura fuera del código |
 
 ## Estructura
 
 ```
 index.html                  catálogo de demos
 404.html, robots.txt        página de error y directivas
+CNAME                       subdominio de la demo (demos.elevalab.com.ar)
 assets/                     identidad y marco común de todas las demos
   css/ elevalab-tokens.css, base.css, demo-shell.css
   js/  demo-shell.js
@@ -51,7 +54,7 @@ spa/                        demo de gestión de spa («Spa Demo», marca fictici
 2. Abrir `…/spa/pruebas/` y verificar que dice «Todas las pruebas pasaron».
 3. Abrir `…/spa/` para ver el estado de la base técnica.
 
-Mientras no tenga dominio propio, la demo se ve en `https://elevalabar.github.io/elevalab-demos/`. Todas las rutas son relativas, así que funciona igual bajo un dominio o subdominio.
+La demo se publica en `https://demos.elevalab.com.ar/` (archivo `CNAME` de la raíz) y, de respaldo, en `https://elevalabar.github.io/elevalab-demos/`. Todas las rutas son relativas, así que funciona igual bajo un dominio, un subdominio o un subdirectorio.
 
 ## Datos y almacenamiento
 
