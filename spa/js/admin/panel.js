@@ -71,7 +71,7 @@
       main.textContent = '';
       if (seccion) seccion.render(main, ctx);
       else {
-        var h = el('h2', 'adm-titulo', 'Turnos'); h.id = 'adm-titulo'; h.tabIndex = -1;
+        var h = el('h1', 'adm-titulo', 'Turnos'); h.id = 'adm-titulo'; h.tabIndex = -1;
         main.appendChild(h);
         main.appendChild(el('p', 'apagado', 'Esta sección todavía no está disponible.'));
       }
@@ -83,10 +83,10 @@
     }
 
     function pantallaIngreso() {
-      var fondo = el('div', 'adm-login');
+      var fondo = el('main', 'adm-login');
       var caja = el('div', 'adm-login-caja');
       if (opc.logo) { var img = el('img'); img.src = opc.logo; img.alt = 'Spa Demo (marca ficticia)'; caja.appendChild(img); }
-      var h = el('h2', null, 'Panel de administración');
+      var h = el('h1', null, 'Panel de administración');
       h.id = 'adm-login-titulo'; h.tabIndex = -1;
       caja.appendChild(h);
       caja.appendChild(el('p', null, 'Demostración: no hace falta usuario ni contraseña. En un sistema real, acá se pediría iniciar sesión.'));
