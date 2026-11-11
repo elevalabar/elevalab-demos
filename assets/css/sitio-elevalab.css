@@ -1,0 +1,47 @@
+/* ElevaLab · marco del sitio dentro de las demos (barra superior y pie)
+   Copia propia, con prefijo «sitio-», de las reglas de la barra y del pie de elevalab.com.ar
+   (elevalab-web/assets/css/style.css). Se duplica a propósito: así las demos no cargan nada de otro sitio.
+   Si cambia el aspecto de la barra o del pie de la web principal, actualizar acá a mano.
+   Depende de: assets/css/elevalab-tokens.css (cargarlo antes). */
+.sitio-skip { position: absolute; left: 12px; top: -80px; z-index: 100; background: var(--oro); color: #111; padding: 12px 16px; font-weight: 700; text-decoration: none; border-radius: 8px; }
+.sitio-skip:focus { top: 12px; }
+.sitio-contenedor { width: 100%; max-width: var(--contenedor); margin: 0 auto; padding: 0 var(--pad); }
+
+/* barra superior */
+.sitio-nav, .sitio-pie { font-family: var(--fuente); font-size: 16px; line-height: 1.6; color: var(--texto); background: var(--negro); }
+.sitio-nav { position: relative; z-index: 60; border-bottom: 1px solid var(--linea); }
+.sitio-nav .sitio-contenedor { display: flex; align-items: center; justify-content: space-between; min-height: 68px; }
+.sitio-marca { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-size: 22px; font-weight: 700; letter-spacing: -0.02em; color: var(--blanco); min-height: var(--toque); }
+.sitio-marca img { display: block; width: 38px; height: 38px; border-radius: 50%; }
+.sitio-marca b, .sitio-pie-marca b { color: var(--oro); font-weight: 700; }
+.sitio-btn-menu { width: var(--toque); height: var(--toque); display: inline-flex; align-items: center; justify-content: center; background: transparent; color: var(--texto); border: 1.5px solid var(--linea); border-radius: 12px; cursor: pointer; }
+.sitio-btn-menu:hover { border-color: var(--oro); }
+.sitio-enlaces { display: none; position: absolute; left: 0; right: 0; top: 100%; background: var(--negro); border-bottom: 1px solid var(--linea); padding: 8px var(--pad) 24px; box-shadow: 0 24px 40px rgba(0, 0, 0, .5); }
+.sitio-enlaces.abierto { display: block; }
+.sitio-enlaces a { display: flex; align-items: center; min-height: 56px; font-size: 18px; font-weight: 600; text-decoration: none; color: var(--texto); border-bottom: 1px solid var(--linea); }
+.sitio-enlaces a.sitio-acceso { font-size: 15px; font-weight: 500; color: var(--apagado); }
+.sitio-enlaces a.sitio-cta { margin-top: 20px; justify-content: center; border: 0; min-height: 52px; font-size: 16px; color: var(--oro); }
+.sitio-nav :focus-visible, .sitio-pie :focus-visible, .sitio-skip:focus-visible { outline: 3px solid var(--oro); outline-offset: 3px; border-radius: 4px; }
+@media (min-width: 900px) {
+  .sitio-btn-menu { display: none; }
+  .sitio-enlaces { display: flex; position: static; align-items: center; gap: 4px; background: transparent; border: 0; box-shadow: none; padding: 0; }
+  .sitio-enlaces a { min-height: 44px; padding: 0 14px; font-size: 14.5px; font-weight: 500; border: 0; color: var(--texto); border-radius: 8px; }
+  .sitio-enlaces a:hover { color: var(--oro); }
+  .sitio-enlaces a.sitio-acceso { font-size: 14px; margin-left: 10px; color: var(--apagado); }
+  .sitio-enlaces a.sitio-cta { margin: 0 0 0 10px; padding: 0 20px; min-height: 44px; border: 1.5px solid var(--oro); color: var(--oro); border-radius: 999px; font-weight: 700; }
+  .sitio-enlaces a.sitio-cta:hover { background: rgba(242, 193, 78, .12); }
+}
+
+/* pie */
+.sitio-pie { border-top: 1px solid var(--linea); padding: 44px 0 28px; }
+.sitio-pie ul { list-style: none; margin: 0; padding: 0; }
+.sitio-pie-grid { display: grid; gap: 30px; }
+.sitio-pie-marca { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; font-size: 22px; font-weight: 700; color: #fff; letter-spacing: -0.02em; }
+.sitio-pie-marca img { display: block; width: 44px; height: 44px; border-radius: 50%; }
+.sitio-pie-frase { margin: 10px 0 0; color: var(--apagado); font-size: 14.5px; }
+.sitio-pie-tit { margin: 0 0 6px; font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--oro); line-height: 1.6; }
+.sitio-pie ul a { display: flex; align-items: center; min-height: 44px; color: var(--texto); text-decoration: none; font-size: 15px; }
+.sitio-pie ul a:hover { color: var(--oro); }
+.sitio-pie-base { display: flex; flex-direction: column; gap: 6px; margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--linea); font-size: 13.5px; color: var(--apagado); }
+.sitio-pie-base a { color: var(--apagado); text-underline-offset: 3px; }
+@media (min-width: 800px) { .sitio-pie-grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; } .sitio-pie-base { flex-direction: row; justify-content: space-between; } }
