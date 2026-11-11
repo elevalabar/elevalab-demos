@@ -9,14 +9,18 @@
   <link rel="icon" type="image/svg+xml" href="../img/spa-demo-marca.svg">
   <link rel="stylesheet" href="../../assets/css/elevalab-tokens.css">
   <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="../../assets/css/sitio-elevalab.css">
   <link rel="stylesheet" href="../../assets/css/demo-shell.css">
   <link rel="stylesheet" href="../css/marca-spa.css">
   <link rel="stylesheet" href="../css/admin.css">
 </head>
 <body class="vista-admin">
+  <div id="sitio-cabecera"></div>
   <div id="demo-shell"></div>
   <div id="panel"></div>
   <noscript><p class="contenedor">Para usar la demostración hace falta JavaScript.</p></noscript>
+
+  <div id="sitio-pie"></div>
 
   <script src="../js/core/config-demo.js"></script>
   <script src="../js/core/tiempo.js"></script>
@@ -27,12 +31,14 @@
   <script src="../js/core/semillas.js"></script>
   <script src="../js/core/almacen.js"></script>
   <script src="../../assets/js/demo-shell.js"></script>
+  <script src="../../assets/js/sitio-elevalab.js"></script>
   <script src="../js/admin/inicio.js"></script>
   <script src="../js/admin/turnos.js"></script>
   <script src="../js/admin/panel.js"></script>
   <script>
     (function () {
       var ED = window.ElevaDemo;
+      ED.sitio.montar({ cabecera: 'sitio-cabecera', pie: 'sitio-pie', logo: '../../assets/img/logo-dorado-160.png', demos: '../../index.html', saltarA: 'adm-contenido' });
       var almacen = ED.almacen.crear({ storage: ED.almacen.obtenerStorage(), ventana: window });
       ED.shell.montar({ destino: 'demo-shell', vista: 'admin', rutas: { cliente: '../cliente/index.html', admin: 'index.html' }, almacen: almacen });
       ED.panel.montar({ almacen: almacen, destino: 'panel', logo: '../img/spa-demo-logo.svg', cliente: '../cliente/index.html' });
