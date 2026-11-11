@@ -120,3 +120,6 @@ body.vista-admin { background: var(--spa-fondo); }
 .adm-modal-botones { display: flex; flex-wrap: wrap; gap: 12px; justify-content: flex-end; margin-top: 18px; }
 .adm-btn-peligro { background: #8a2d2d; border-color: #8a2d2d; }
 .adm-btn-peligro:hover:not(:disabled) { background: #6e2222; border-color: #6e2222; }
+
+/* en celular la navegación del panel queda fija abajo: el pie del sitio necesita aire para no quedar tapado */
+@media (max-width: 799px) { body.vista-admin #sitio-pie { padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)); background: var(--negro); } }
