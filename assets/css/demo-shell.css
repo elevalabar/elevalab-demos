@@ -1,12 +1,13 @@
 /* ElevaLab · marco general de las demos (barra de aviso, selector de vista, reinicio)
    Depende de: elevalab-tokens.css y base.css. Lo usa assets/js/demo-shell.js. */
 .demo-barra {
-  position: sticky; top: 0; z-index: 50;
   background: var(--carbon); border-bottom: 1px solid var(--oro);
   padding: calc(env(safe-area-inset-top, 0px) + 8px) var(--pad) 8px;
   font-size: .9rem;
 }
 .demo-barra-interno { max-width: var(--contenedor); margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+/* El contenedor es el que queda fijo (si lo fuera la barra sola, no podría salirse de su contenedor). Solo en pantallas anchas. */
+@media (min-width: 561px) { #demo-shell { position: sticky; top: 0; z-index: 50; } }
 .demo-aviso { margin: 0; flex: 1 1 260px; line-height: 1.4; }
 .demo-aviso strong { color: var(--oro); }
 .demo-controles { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
@@ -36,8 +37,7 @@
 .demo-mensaje { flex: 1 1 100%; margin: 0; color: var(--ok); min-height: 1.2em; }
 
 @media (max-width: 560px) {
-  /* En celular la barra es alta: no queda fija para no tapar el contenido. En pantallas más anchas sí queda fija. */
-  .demo-barra { position: static; }
+  /* En celular la barra es alta: no queda fija para no tapar el contenido. */
   .demo-controles { width: 100%; }
   .demo-vistas { width: 100%; }
   .demo-vista { flex: 1 1 50%; justify-content: center; }
