@@ -84,6 +84,7 @@
 
     function pantallaIngreso() {
       var fondo = el('main', 'adm-login');
+      fondo.id = 'adm-contenido';
       var caja = el('div', 'adm-login-caja');
       if (opc.logo) { var img = el('img'); img.src = opc.logo; img.alt = 'Spa Demo (marca ficticia)'; caja.appendChild(img); }
       var h = el('h1', null, 'Panel de administración');
@@ -113,7 +114,9 @@
         return;
       }
       var raiz = el('div', 'adm');
-      var cab = el('header', 'adm-cab');
+      var cab = el('div', 'adm-cab');
+      cab.setAttribute('role', 'region');
+      cab.setAttribute('aria-label', 'Panel de administración de Spa Demo');
       var cont = el('div', 'contenedor');
       var marca = el('div', 'adm-marca');
       if (opc.logo) { var img = el('img'); img.src = opc.logo; img.alt = ''; marca.appendChild(img); }
