@@ -10,17 +10,12 @@
   <link rel="icon" type="image/png" href="assets/img/logo-dorado-160.png">
   <link rel="stylesheet" href="assets/css/elevalab-tokens.css">
   <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/sitio-elevalab.css">
 </head>
 <body>
-  <header class="cabecera">
-    <div class="contenedor">
-      <img src="assets/img/logo-dorado-160.png" width="36" height="36" alt="">
-      <a class="marca" href="https://elevalab.com.ar/">ElevaLab</a>
-      <span class="apagado">· Demostraciones</span>
-    </div>
-  </header>
+  <div id="sitio-cabecera"></div>
 
-  <main class="contenedor">
+  <main class="contenedor" id="contenido">
     <section class="seccion">
       <h1>Probá cómo funciona</h1>
       <p class="apagado" style="max-width:60ch">
@@ -45,9 +40,16 @@
     </section>
   </main>
 
-  <footer class="contenedor aviso-pie">
+  <div class="contenedor aviso-pie" role="region" aria-label="Aviso sobre las demostraciones">
     Las demostraciones no usan datos reales. Esta página no está pensada para buscadores, pero ser «noindex» no la hace privada:
     cualquiera con el enlace puede verla.
-  </footer>
+  </div>
+
+  <div id="sitio-pie"></div>
+
+  <script src="assets/js/sitio-elevalab.js"></script>
+  <script>
+    window.ElevaDemo.sitio.montar({ cabecera: 'sitio-cabecera', pie: 'sitio-pie', logo: 'assets/img/logo-dorado-160.png', demos: 'index.html', saltarA: 'contenido' });
+  </script>
 </body>
 </html>
