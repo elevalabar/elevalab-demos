@@ -9,15 +9,17 @@
   <link rel="icon" type="image/svg+xml" href="../img/spa-demo-marca.svg">
   <link rel="stylesheet" href="../../assets/css/elevalab-tokens.css">
   <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="../../assets/css/sitio-elevalab.css">
   <link rel="stylesheet" href="../../assets/css/demo-shell.css">
   <link rel="stylesheet" href="../css/marca-spa.css">
   <link rel="stylesheet" href="../css/cliente.css">
 </head>
 <body class="vista-cliente">
+  <div id="sitio-cabecera"></div>
   <div id="demo-shell"></div>
 
   <div class="spa-pagina">
-    <header class="spa-cabecera">
+    <div class="spa-cabecera" role="region" aria-label="Cabecera de Spa Demo">
       <div class="contenedor">
         <a href="#inicio" aria-label="Spa Demo, ir al inicio"><img src="../img/spa-demo-logo.svg" alt="Spa Demo (marca ficticia)"></a>
         <nav aria-label="Secciones">
@@ -25,7 +27,7 @@
           <a href="#reserva">Reservar</a>
         </nav>
       </div>
-    </header>
+    </div>
 
     <main id="inicio">
       <section class="spa-hero">
@@ -49,11 +51,13 @@
       </section>
     </main>
 
-    <footer class="contenedor spa-pie">
+    <div class="contenedor spa-pie" role="region" aria-label="Aviso de la demostración">
       Spa Demo es una marca ficticia y esta es una demostración de ElevaLab con datos ficticios.
       No ingreses datos reales. «noindex» no hace privada esta página.
-    </footer>
+    </div>
   </div>
+
+  <div id="sitio-pie"></div>
 
   <script src="../js/core/config-demo.js"></script>
   <script src="../js/core/tiempo.js"></script>
@@ -63,10 +67,12 @@
   <script src="../js/core/semillas.js"></script>
   <script src="../js/core/almacen.js"></script>
   <script src="../../assets/js/demo-shell.js"></script>
+  <script src="../../assets/js/sitio-elevalab.js"></script>
   <script src="../js/cliente/asistente.js"></script>
   <script>
     (function () {
       var ED = window.ElevaDemo;
+      ED.sitio.montar({ cabecera: 'sitio-cabecera', pie: 'sitio-pie', logo: '../../assets/img/logo-dorado-160.png', demos: '../../index.html', saltarA: 'inicio' });
       var almacen = ED.almacen.crear({ storage: ED.almacen.obtenerStorage(), ventana: window });
       ED.shell.montar({ destino: 'demo-shell', vista: 'cliente', rutas: { cliente: 'index.html', admin: '../admin/index.html' }, almacen: almacen });
       ED.asistente.pintarServiciosInicio(almacen, 'servicios-lista');
