@@ -29,8 +29,8 @@ index.html                  catálogo de demos
 404.html, robots.txt        página de error y directivas
 CNAME                       subdominio de la demo (demos.elevalab.com.ar)
 assets/                     identidad y marco común de todas las demos
-  css/ elevalab-tokens.css, base.css, demo-shell.css
-  js/  demo-shell.js
+  css/ elevalab-tokens.css, base.css, demo-shell.css, sitio-elevalab.css
+  js/  demo-shell.js, sitio-elevalab.js
   img/ logo-dorado-160.png
 docs/                       alcance y reglas de negocio reproducidas
 spa/                        demo de gestión de spa («Spa Demo», marca ficticia)
@@ -55,6 +55,16 @@ spa/                        demo de gestión de spa («Spa Demo», marca fictici
 3. Abrir `…/spa/` para ver el estado de la base técnica.
 
 La demo se publica en `https://demos.elevalab.com.ar/` (archivo `CNAME` de la raíz) y, de respaldo, en `https://elevalabar.github.io/elevalab-demos/`. Todas las rutas son relativas, así que funciona igual bajo un dominio, un subdominio o un subdirectorio.
+
+## Barra superior y pie de ElevaLab
+
+Todas las pantallas (menos las pruebas automáticas y la página de error) muestran la misma barra superior y el mismo pie que
+`elevalab.com.ar`, para que la demostración se sienta parte de la web. Los enlaces apuntan a la web principal con direcciones
+absolutas (`https://elevalab.com.ar/...`).
+
+Es una **copia propia** (`assets/css/sitio-elevalab.css` y `assets/js/sitio-elevalab.js`), no se carga nada desde la web principal.
+Por eso, si cambia el menú o el pie de `elevalab-web` (en `assets/js/site.js`: `NAV`, `PIE_EXTRA`, correo e Instagram), hay que
+actualizar el mismo dato en `assets/js/sitio-elevalab.js`.
 
 ## Datos y almacenamiento
 
